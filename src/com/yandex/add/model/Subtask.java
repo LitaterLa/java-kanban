@@ -1,3 +1,5 @@
+package com.yandex.add.model;
+
 public class Subtask  extends Task {
 
 
