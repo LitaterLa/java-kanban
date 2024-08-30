@@ -3,21 +3,21 @@ package com.yandex.add;
 import com.yandex.add.model.Epic;
 import com.yandex.add.model.Subtask;
 import com.yandex.add.model.Task;
-import com.yandex.add.model.service.TaskManager;
+import com.yandex.add.service.TaskManager;
 
 public class Main {
     public static void main(String[] args) {
         TaskManager taskManager = new TaskManager();
-        Task task1 = new Task("Parent-teacher conf", "school year org", taskManager.generateId());
-        Task task2 = new Task("Shopping", "water filter", taskManager.generateId());
-        Epic epic1 = new Epic("Java", "learn coding", taskManager.generateId());
+        Task task1 = new Task("Parent-teacher conf", "school year org");
+        Task task2 = new Task("Shopping", "water filter");
+        Epic epic1 = new Epic("Java", "learn coding");
         taskManager.createEpic(epic1);
-        Subtask subtask1_1 = new Subtask("Master static modifier", "solve more problems", taskManager.generateId(), epic1.getIdNum());
-        Subtask subtask1_2 = new Subtask("Study OOP closer", "solve more problems", taskManager.generateId(), epic1.getIdNum());
-        Epic epic2 = new Epic("Efficient tutoring", "enhance st skills", taskManager.generateId());
+        Subtask subtask1_1 = new Subtask("Master static modifier", "solve more problems", epic1.getIdNum());
+        Subtask subtask1_2 = new Subtask("Study OOP closer", "solve more problems",  epic1.getIdNum());
+        Epic epic2 = new Epic("Efficient tutoring", "enhance st skills");
         taskManager.createEpic(epic2);
-        Subtask subtask2_1 = new Subtask("Master english", "pratice more", taskManager.generateId(), epic2.getIdNum());
-        Subtask subtask2_2 = new Subtask("Master maths", "solve more math problems", taskManager.generateId(), epic2.getIdNum());
+        Subtask subtask2_1 = new Subtask("Master english", "practice more",  epic2.getIdNum());
+        Subtask subtask2_2 = new Subtask("Master maths", "solve more math problems", epic2.getIdNum());
 
         taskManager.createTask(task1);
         taskManager.createSubtask(subtask1_2);
@@ -45,10 +45,10 @@ public class Main {
 //        subtask1_1.setDescription("New subtask description");
 //        taskManager.updateSubtack(subtask1_1);
 
-//        taskManager.printTask();
-//        taskManager.printEpicsAndSubtasks();
+        taskManager.printTask();
+        taskManager.printEpicsAndSubtasks();
 
-        taskManager.setEpicStatus(epic1);
+//        taskManager.setEpicStatus(epic1);
 
 
     }

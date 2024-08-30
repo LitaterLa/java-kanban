@@ -1,22 +1,30 @@
 package com.yandex.add.model;
 
+import com.yandex.add.service.TaskStatus;
+
 import java.util.Objects;
 
 public class Task {
     private String title;
     private String description;
-    private final int idNum;
+    private int idNum;
     private TaskStatus taskStatus;
 
-    public Task(String title, String description, int idNum) {
+    public Task(String title, String description) {
         this.title = title;
         this.description = description;
         this.idNum = idNum;
         this.taskStatus = TaskStatus.NEW;
     }
-    public void setTitle(String title){
+
+    public void setTitle(String title) {
         this.title = title;
     }
+
+    public void setIdNum(int id) {
+        this.idNum = id;
+    }
+
     public String getTitle() {
         return title;
     }
