@@ -3,8 +3,8 @@ package com.yandex.add.model;
 import java.util.Objects;
 
 public class Task {
-    private final  String title;
-    private final String description;
+    private String title;
+    private String description;
     private final int idNum;
     private TaskStatus taskStatus;
 
@@ -14,7 +14,9 @@ public class Task {
         this.idNum = idNum;
         this.taskStatus = TaskStatus.NEW;
     }
-
+    public void setTitle(String title){
+        this.title = title;
+    }
     public String getTitle() {
         return title;
     }
@@ -33,6 +35,10 @@ public class Task {
 
     public String getDescription() {
         return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
 
