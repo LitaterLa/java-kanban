@@ -1,7 +1,5 @@
 package com.yandex.add.model;
 
-import com.yandex.add.service.TaskStatus;
-
 import java.util.Objects;
 
 public class Task {
@@ -13,7 +11,6 @@ public class Task {
     public Task(String title, String description) {
         this.title = title;
         this.description = description;
-        this.idNum = idNum;
         this.taskStatus = TaskStatus.NEW;
     }
 

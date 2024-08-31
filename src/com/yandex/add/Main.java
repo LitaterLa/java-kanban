@@ -46,7 +46,7 @@ public class Main {
 //        taskManager.updateSubtack(subtask1_1);
 
         taskManager.printTask();
-        taskManager.printEpicsAndSubtasks();
+        taskManager.printEpicsAndSubtasks(epic1.getIdNum());
 
 //        taskManager.setEpicStatus(epic1);
 
