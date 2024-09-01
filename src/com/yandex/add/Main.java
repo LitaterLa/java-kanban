@@ -43,10 +43,10 @@ public class Main {
 
 //        subtask1_1.setTitle("New subtask title");
 //        subtask1_1.setDescription("New subtask description");
-//        taskManager.updateSubtack(subtask1_1);
+//        taskManager.updateSubtask(subtask1_1);
 
-        taskManager.printTask();
-        taskManager.printEpicsAndSubtasks(epic1.getIdNum());
+        taskManager.getTasks();
+        taskManager.getSubtasksByEpic(epic1.getIdNum());
 
 //        taskManager.setEpicStatus(epic1);
 
