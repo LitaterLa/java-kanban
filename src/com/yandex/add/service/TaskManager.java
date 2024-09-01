@@ -34,9 +34,9 @@ public class TaskManager {
         subtask.setIdNum(generateId());
         Epic epic = epics.get(subtask.getEpicId());
         if (epic != null) {
+            epicsWithSubtasks.get(epic).add(subtask);
             subtasks.put(subtask.getIdNum(), subtask);
             setEpicStatus(epic);
-            epicsWithSubtasks.get(epic).add(subtask);
         }
         return subtask;
     }
@@ -183,6 +183,7 @@ public class TaskManager {
                 isNew = true;
             } else {
                 epic.setTaskStatus(TaskStatus.IN_PROGRESS);
+                return;
             }
         }
         if (isDone && isNew) {
