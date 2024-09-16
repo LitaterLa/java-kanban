@@ -3,11 +3,12 @@ package com.yandex.add;
 import com.yandex.add.model.Epic;
 import com.yandex.add.model.Subtask;
 import com.yandex.add.model.Task;
+import com.yandex.add.service.Managers;
 import com.yandex.add.service.TaskManager;
 
 public class Main {
     public static void main(String[] args) {
-        TaskManager taskManager = new TaskManager();
+        TaskManager taskManager = Managers.getDefault();
         Task task1 = new Task("Parent-teacher conf", "school year org");
         Task task2 = new Task("Shopping", "water filter");
         Epic epic1 = new Epic("Java", "learn coding");
