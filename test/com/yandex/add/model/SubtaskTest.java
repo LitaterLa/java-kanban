@@ -11,8 +11,9 @@ class SubtaskTest {
     public void shouldEqualWithSubtasks(){
         Epic epic = new Epic("epic", "epicDes");
         Subtask expected = new Subtask("1", "1", epic.getIdNum());
-        Subtask actual = new Subtask("1", "2",epic.getIdNum());
+        Subtask actual = new Subtask("1", "1",epic.getIdNum());
 
+        assertEqualSubtasks(expected,actual);
     }
 
     private static void assertEqualSubtasks(Subtask expected, Subtask actual){

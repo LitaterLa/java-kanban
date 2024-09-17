@@ -14,6 +14,14 @@ class InMemoryHistoryManagerTest {
     final List<Task> history = historyManager.getHistory();
 
     @Test
+    void shouldBeLessThan10InSizeHistory() {
+        for (int i = 0; i < 15; i++) {
+            historyManager.add(new Task("title", "d"));
+        }
+        assertEquals(10, historyManager.getHistory().size());
+    }
+
+    @Test
     void shouldAddImmutableTask() {
         historyManager.add(task);
         assertNotNull(history, "История не пустая.");

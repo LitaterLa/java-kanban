@@ -7,18 +7,17 @@ import com.yandex.add.model.TaskStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class InMemoryTaskManagerTest {
     private InMemoryTaskManager memoryTaskManager;
-    private EmptyHistoryManager historyManager;
+    private HistoryManager historyManager;
 
     @BeforeEach
     void init() {
-        historyManager = new EmptyHistoryManager();
+        historyManager = new InMemoryHistoryManager();
         memoryTaskManager = new InMemoryTaskManager(historyManager);
     }
 
@@ -148,7 +147,7 @@ public class InMemoryTaskManagerTest {
     }
     @Test
     public void taskManagers() {
-        EmptyHistoryManager historyManager = new EmptyHistoryManager();
+        HistoryManager historyManager = new InMemoryHistoryManager();
         InMemoryTaskManager inMemoryTaskManager = new InMemoryTaskManager(historyManager);
         assertEqualTaskManagers(memoryTaskManager, inMemoryTaskManager, "should be equal");
     }
@@ -156,16 +155,4 @@ public class InMemoryTaskManagerTest {
         assertEquals(expected.getTasks(), actual.getTasks());
     }
 
-}
-
-class EmptyHistoryManager implements HistoryManager {
-    @Override
-    public void add(Task task) {
-
-    }
-
-    @Override
-    public List<Task> getHistory() {
-        return Collections.emptyList();
-    }
 }

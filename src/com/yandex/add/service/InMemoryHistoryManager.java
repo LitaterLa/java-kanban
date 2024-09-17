@@ -2,11 +2,12 @@ package com.yandex.add.service;
 
 import com.yandex.add.model.Task;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class InMemoryHistoryManager implements HistoryManager {
-    ArrayList<Task> history = new ArrayList<>(10);
+    private final List<Task> history = new LinkedList<>();
+    private final int historyLength = 10;
 
 
     @Override
@@ -15,7 +16,7 @@ public class InMemoryHistoryManager implements HistoryManager {
             return;
         }
         System.out.println("added to history task :" + task.getIdNum());
-        if (history.size() > 9) {
+        if (history.size() >= historyLength) {
             history.removeFirst();
         }
         history.add(task);
@@ -23,7 +24,7 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     @Override
     public List<Task> getHistory() {
-        return history;
+        return List.copyOf(history);
     }
 
 }
