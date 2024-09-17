@@ -13,6 +13,8 @@ public interface TaskManager {
 
     Subtask createSubtask(Subtask subtask);
 
+    List<Task> getHistory();
+
     void deleteAll();
 
     void deleteAllTasks();

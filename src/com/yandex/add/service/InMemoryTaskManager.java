@@ -8,14 +8,15 @@ import com.yandex.add.model.TaskStatus;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class InMemoryTaskManager implements TaskManager {
-    private final HashMap<Integer, Task> tasks;
-    private final HashMap<Integer, Subtask> subtasks;
-    private final HashMap<Integer, Epic> epics;
-    private final HashMap<Epic, List<Subtask>> epicsWithSubtasks = new HashMap<>();
+    private final Map<Integer, Task> tasks;
+    private final Map<Integer, Subtask> subtasks;
+    private final Map<Integer, Epic> epics;
+    private final Map<Epic, List<Subtask>> epicsWithSubtasks = new HashMap<>();
     private int idCounter = 1;
-    HistoryManager historyManager;
+    private final HistoryManager historyManager;
 
     public InMemoryTaskManager(HistoryManager historyManager) {
         this.historyManager = historyManager;
@@ -51,6 +52,11 @@ public class InMemoryTaskManager implements TaskManager {
             setEpicStatus(epic);
         }
         return subtask;
+    }
+
+    @Override
+    public List<Task> getHistory(){
+        return List.copyOf(historyManager.getHistory());
     }
 
     @Override
@@ -178,16 +184,19 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public Task getTaskById(int id) {
+        historyManager.add(tasks.get(id));
         return tasks.get(id);
     }
 
     @Override
     public Task getEpicByID(int id) {
+        historyManager.add(epics.get(id));
         return epics.get(id);
     }
 
     @Override
     public Task getSubtaskByID(int id) {
+        historyManager.add(subtasks.get(id));
         return subtasks.get(id);
     }
 
