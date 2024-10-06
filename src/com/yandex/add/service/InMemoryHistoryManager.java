@@ -21,7 +21,7 @@ public class InMemoryHistoryManager implements HistoryManager {
     }
 
     private Map<Integer, Node> historyMap;
-    private final int HISTORY_LENGTH = 10;
+    private final int LENGTH = 10;
     private Node head;
     private Node tail;
 
@@ -43,7 +43,7 @@ public class InMemoryHistoryManager implements HistoryManager {
             removeNode(historyMap.get(task.getIdNum()));
             historyMap.remove(task.getIdNum());
         }
-        if (historyMap.size() == HISTORY_LENGTH) {
+        if (historyMap.size() == LENGTH) {
             removeNode(head);
             historyMap.remove(head.data.getIdNum());
         }
