@@ -36,6 +36,7 @@ class InMemoryHistoryManagerTest {
         historyManager.remove(task1.getIdNum());
         assertEquals(historyManager.getHistory(), List.of(task2,task3));
     }
+
     @Test
     void shouldBeLessThan10InSizeHistory() {
         this.history.addAll(historyManager.getHistory());
@@ -55,9 +56,9 @@ class InMemoryHistoryManagerTest {
 
     @Test
     void shouldNotSaveOldID(){
-    taskManager.deleteTaskById(task1.getIdNum());
-    Task newTask = new Task("new", "newer");
-    assertNotEquals(task1.getIdNum(), newTask.getIdNum());
+        taskManager.deleteTaskById(task1.getIdNum());
+        Task newTask = new Task("new", "newer");
+        assertNotEquals(task1.getIdNum(), newTask.getIdNum());
     }
 
     @Test
@@ -73,9 +74,8 @@ class InMemoryHistoryManagerTest {
         Subtask subtask = taskManager.getSubtaskByID(subtask1.getIdNum());
         List<Subtask> subtasks = taskManager.getSubtasks();
         assertEquals(1, subtasks.size());
-
-
     }
+
     @Test
     void shouldBeSameArrays(){
         List<Task> history1 = new ArrayList<>();

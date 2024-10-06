@@ -7,6 +7,7 @@ import com.yandex.add.model.Task;
 import java.util.List;
 
 public interface TaskManager {
+
     Task createTask(Task task);
 
     Epic createEpic(Epic epic);

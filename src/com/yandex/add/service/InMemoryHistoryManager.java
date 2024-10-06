@@ -36,7 +36,6 @@ public class InMemoryHistoryManager implements HistoryManager {
         this.tail = null;
     }
 
-    //Todo links
     @Override
     public void add(Task task) {
         if (task == null) return;
@@ -74,7 +73,7 @@ public class InMemoryHistoryManager implements HistoryManager {
         // Реализация метода getHistory должна перекладывать задачи из связного списка в ArrayList для формирования ответа.
     }
 
-    //ToDo links
+
     private void linkLast(Task task) {
         final Node oldTail = tail;
         final Node newTail = new Node(oldTail, task, null);
