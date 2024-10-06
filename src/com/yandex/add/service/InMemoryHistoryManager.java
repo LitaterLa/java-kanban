@@ -21,7 +21,7 @@ public class InMemoryHistoryManager implements HistoryManager {
     }
 
     private Map<Integer, Node> historyMap;
-    private final static int HISTORY_LENGTH = 10;
+    private final int HISTORY_LENGTH = 10;
     private Node head;
     private Node tail;
 
