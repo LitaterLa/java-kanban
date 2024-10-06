@@ -94,7 +94,7 @@ public class InMemoryTaskManagerTest {
 
         assertNotNull(memoryTaskManager.getTaskById(task.getIdNum()));
         assertNotNull(memoryTaskManager.getEpicByID(epic.getIdNum()));
-        assertNotNull(memoryTaskManager.getSubtaskByID(subtask.getEpicId()));
+        assertNotNull(memoryTaskManager.getSubtaskByID(subtask.getIdNum()));
 
     }
 
