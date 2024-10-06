@@ -3,7 +3,7 @@ package com.yandex.add.service;
 
 public class Managers {
 
-    private Managers() {}
+    private Managers() { }
 
     public static TaskManager getDefault() {
         return new InMemoryTaskManager(getDefaultHistory());
