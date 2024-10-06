@@ -3,53 +3,58 @@ package com.yandex.add;
 import com.yandex.add.model.Epic;
 import com.yandex.add.model.Subtask;
 import com.yandex.add.model.Task;
-import com.yandex.add.service.Managers;
-import com.yandex.add.service.TaskManager;
+import com.yandex.add.service.InMemoryHistoryManager;
+import com.yandex.add.service.InMemoryTaskManager;
 
 public class Main {
     public static void main(String[] args) {
-        TaskManager taskManager = Managers.getDefault();
+        InMemoryHistoryManager historyManager = new InMemoryHistoryManager();
+        InMemoryTaskManager taskManager = new InMemoryTaskManager(historyManager);
+
         Task task1 = new Task("Parent-teacher conf", "school year org");
         Task task2 = new Task("Shopping", "water filter");
+        taskManager.createTask(task1);
+        taskManager.createTask(task2);
+
         Epic epic1 = new Epic("Java", "learn coding");
         taskManager.createEpic(epic1);
+
         Subtask subtask1_1 = new Subtask("Master static modifier", "solve more problems", epic1.getIdNum());
         Subtask subtask1_2 = new Subtask("Study OOP closer", "solve more problems",  epic1.getIdNum());
-        Epic epic2 = new Epic("Efficient tutoring", "enhance st skills");
-        taskManager.createEpic(epic2);
-        Subtask subtask2_1 = new Subtask("Master english", "practice more",  epic2.getIdNum());
-        Subtask subtask2_2 = new Subtask("Master maths", "solve more math problems", epic2.getIdNum());
-
-        taskManager.createTask(task1);
+        Subtask subtask1_3 = new Subtask("string", "string class", epic1.getIdNum());
         taskManager.createSubtask(subtask1_2);
         taskManager.createSubtask(subtask1_1);
+        taskManager.createSubtask(subtask1_3);
 
-        taskManager.createTask(task2);
-        taskManager.createSubtask(subtask2_1);
-        taskManager.createSubtask(subtask2_2);
-        taskManager.deleteTaskById(task2.getIdNum());
-        taskManager.deleteSubtaskById(subtask2_2.getIdNum());
+        Epic epic2 = new Epic("Efficient tutoring", "enhance st skills");
+        taskManager.createEpic(epic2);
+        taskManager.getEpicByID(epic1.getIdNum());
+        System.out.println(historyManager.getHistory().size());
+        taskManager.getSubtaskByID(subtask1_1.getIdNum());
+        System.out.println(historyManager.getHistory().size());
+        taskManager.getSubtaskByID(subtask1_3.getIdNum());
+        System.out.println(historyManager.getHistory().size());
 
-//       taskManager.deleteEpicById(epic2.getIdNum());
+        taskManager.getEpicByID(epic2.getIdNum());
+        taskManager.getTaskById(task2.getIdNum());
 
-//        taskManager.getTaskById(task1.getIdNum());
-//        taskManager.getSubtasksByEpic(epic1);
-//        task1.setTitle("New title");
-//        task1.setDescription("New description");
-//        taskManager.updateTask(task1);
+        System.out.println(historyManager.getHistory().size());
+        taskManager.getTaskById(task1.getIdNum());
+        taskManager.getSubtaskByID(subtask1_1.getIdNum());
+        taskManager.getSubtaskByID(subtask1_3.getIdNum());
 
-//        epic1.setTitle("New epic title");
-//        epic1.setDescription("New epic description");
-//        taskManager.updateEpic(epic1);
+        System.out.println(historyManager.getHistory().size());
 
-//        subtask1_1.setTitle("New subtask title");
-//        subtask1_1.setDescription("New subtask description");
-//        taskManager.updateSubtask(subtask1_1);
+        historyManager.remove(task1.getIdNum());
+        System.out.println(historyManager.getHistory().size());
 
-        taskManager.getTasks();
-        taskManager.getSubtasksByEpic(epic1.getIdNum());
+        taskManager.deleteEpicById(epic1.getIdNum());
+        historyManager.remove(epic1.getIdNum());
+        historyManager.remove(subtask1_1.getIdNum());
+        historyManager.remove(subtask1_3.getIdNum());
 
-//        taskManager.setEpicStatus(epic1);
+        System.out.println(historyManager.getHistory().size());
+
 
 
     }

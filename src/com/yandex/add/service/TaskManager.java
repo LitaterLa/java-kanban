@@ -45,7 +45,7 @@ public interface TaskManager {
 
     Task getTaskById(int id);
 
-    Task getEpicByID(int id);
+    Epic getEpicByID(int id);
 
-    Task getSubtaskByID(int id);
+    Subtask getSubtaskByID(int id);
 }

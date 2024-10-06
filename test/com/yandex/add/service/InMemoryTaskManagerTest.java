@@ -72,43 +72,15 @@ public class InMemoryTaskManagerTest {
 
     @Test
     void shouldNotAddEpicAsSubtask() {
-        Subtask subtask = new Subtask("subtask", "subtask", 1000);
         Epic epic = new Epic("epic", "epic");
-
         memoryTaskManager.createEpic(epic);
+        Epic savedEpic = memoryTaskManager.getEpicByID(epic.getIdNum());
+        assertNotNull(savedEpic);
+
+        Subtask subtask = new Subtask("subtask", "subtask", epic.getIdNum());
+        subtask.setTaskStatus(TaskStatus.DONE);
         memoryTaskManager.createSubtask(subtask);
-        memoryTaskManager.updateEpic(epic);
-        memoryTaskManager.updateSubtask(subtask);
-        assertNotEquals(epic.getDescription(), subtask.getDescription());
-        assertNotEquals(epic.getTitle(), subtask.getTitle());
-        //плохо понимаю что должен делать этот тест
-    }
-
-    @Test
-    public void shouldNotAddSubtaskAsItsEpic(){
-        Subtask subtask = memoryTaskManager.createSubtask(new Subtask("title", "desc", 50));
-        Epic epic = memoryTaskManager.createEpic(new Epic("epic", "epicD"));
-
-        memoryTaskManager.updateSubtask(subtask);
-        assertNotEquals(epic.getDescription(), subtask.getDescription());
-        assertNotEquals(epic.getTitle(), subtask.getTitle());
-        //плохо понимаю что должны делать последние два теста, пыталась идти по рекомендации наставника. немного знакома с исключ, нашла такое искл
-    /*
-    @Test (expected = IllegalArgumentException.class)
-    public void shouldNotAddEpicAsSubtask(){
-    Subtask subtask = memoryTaskManager.createSubtask(new Subtask("title", "desc", 50));
-    Epic epic = memoryTaskManager.createEpic(new Epic("epic", "epicD", subtask.getIdNum()));
-
-    epic.addSubtask(subtask); получу искл
-    }
-
-       @Test(expected = IllegalArgumentException.class)
-   public void shouldNotAddSubtaskAsItsEpic() {
-       Subtask subtask = new Subtask(1, "Subtask1", "Description1", Status.NEW, 1);
-       subtask.setEpicId(subtask.getId());
-   }
-     */
-
+        assertEquals(TaskStatus.DONE, savedEpic.getTaskStatus());
     }
 
     @Test
