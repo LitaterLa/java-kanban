@@ -20,15 +20,16 @@ public class InMemoryHistoryManager implements HistoryManager {
         }
     }
 
-    private Map<Integer, Node> historyMap ;
+    private Map<Integer, Node> historyMap;
     private final static int HISTORY_LENGTH = 10;
     private Node head;
     private Node tail;
 
-    public int getMapSize(){
+    public int getMapSize() {
         return this.historyMap.size();
 
     }
+
     public InMemoryHistoryManager() {
         this.historyMap = new HashMap<>();
         this.head = null;
@@ -60,19 +61,20 @@ public class InMemoryHistoryManager implements HistoryManager {
     public void remove(int id) {
         Node toRemove = historyMap.get(id);
         if (toRemove != null) {
-                historyMap.remove(toRemove.data.getIdNum());
-                removeNode(toRemove);
-            } else {
-                System.out.println("task id " + id + " not found");
-            }
+            historyMap.remove(toRemove.data.getIdNum());
+            removeNode(toRemove);
+        } else {
+            System.out.println("task id " + id + " not found");
         }
+    }
 
     @Override
     public List<Task> getHistory() {
         return getTasks();
         // Реализация метода getHistory должна перекладывать задачи из связного списка в ArrayList для формирования ответа.
     }
-//ToDo links
+
+    //ToDo links
     private void linkLast(Task task) {
         final Node oldTail = tail;
         final Node newTail = new Node(oldTail, task, null);
@@ -95,17 +97,18 @@ public class InMemoryHistoryManager implements HistoryManager {
         } else {
             head = node.next;
         }
-        if(node.next != null){
+        if (node.next != null) {
             node.next.prev = node.prev;
         } else {
             tail = node.prev;
         }
-            node.prev = null;
-            node.next = null;
+        node.prev = null;
+        node.next = null;
 
     }
+
     private List<Task> getTasks() {
-       List<Task> tasks = new ArrayList<>();
+        List<Task> tasks = new ArrayList<>();
         Node currentHead = head;
         while (currentHead != null) {
             tasks.add(currentHead.data);
