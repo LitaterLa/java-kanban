@@ -24,11 +24,7 @@ public class InMemoryHistoryManager implements HistoryManager {
     @Override
     public void add(Task task) {
         if (task == null) return;
-        if (historyMap.get(task.getIdNum()) != null) {
-            removeNode(historyMap.get(task.getIdNum()));
-            historyMap.remove(task.getIdNum());
-        }
-
+        remove(task.getIdNum());
         linkLast(task);
         historyMap.put(task.getIdNum(), tail);
     }
@@ -52,17 +48,15 @@ public class InMemoryHistoryManager implements HistoryManager {
             head = newTail;
         } else {
             oldTail.next = newTail;
-            //?newTail.prev = oldTail;
         }
         //будет добавлять задачу в конец этого списка
     }
 
     private void removeNode(Node node) {
         if (node == null) return;
-
         if (node.prev != null) {
-            Node next = node.next;
-            Node prev = node.prev;
+            final Node next = node.next; // здесь мод.private недоступен(?)
+            final Node prev = node.prev;
             prev.next = next;
         } else {
             head = node.next;
