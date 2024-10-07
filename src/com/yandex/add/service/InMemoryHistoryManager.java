@@ -54,19 +54,19 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     private void removeNode(Node node) {
         if (node == null) return;
-        if (node.prev != null) {
-            final Node next = node.next; // здесь мод.private недоступен(?)
-            final Node prev = node.prev;
+        final Node next = node.next;
+        final Node prev = node.prev;
+        if (prev != null) {
             prev.next = next;
         } else {
-            head = node.next;
+            head = next;
         }
-        if (node.next != null) {
-            node.next.prev = node.prev;
+        if (next != null) {
+            next.prev = prev;
         } else {
-            tail = node.prev;
+            tail = prev;
         }
-        node.prev = null;
+        node.prev = null; //тк были объявлены константы, здесь оставляю такое обновление ссылки?
         node.next = null;
 
     }

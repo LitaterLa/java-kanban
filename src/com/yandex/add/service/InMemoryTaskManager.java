@@ -66,31 +66,31 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void deleteAllTasks() {
-        tasks.clear();
         for (Task task : tasks.values()) {
             historyManager.remove(task.getIdNum());
         }
+        tasks.clear();
     }
 
     @Override
     public void deleteAllSubtasks() {
-        subtasks.clear();
-        epicsWithSubtasks.values().clear();
         for (Epic epic : epics.values()) {
             setEpicStatus(epic);
         }
         for (Subtask subtask : subtasks.values()) {
             historyManager.remove(subtask.getIdNum());
         }
+        subtasks.clear();
+        epicsWithSubtasks.values().clear();
     }
 
     @Override
     public void deleteAllEpics() {
-        epics.clear();
-        epicsWithSubtasks.clear();
         for (Epic epic : epics.values()) {
             historyManager.remove(epic.getIdNum());
         }
+        epics.clear();
+        epicsWithSubtasks.clear();
         deleteAllSubtasks();
     }
 
