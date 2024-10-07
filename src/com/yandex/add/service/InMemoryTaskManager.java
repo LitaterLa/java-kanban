@@ -95,6 +95,7 @@ public class InMemoryTaskManager implements TaskManager {
     public void deleteTaskById(int id) {
         if (tasks.get(id) != null) {
             tasks.remove(id);
+            historyManager.remove(id);
         } else {
             System.out.println("Id not found.");
         }
@@ -111,8 +112,10 @@ public class InMemoryTaskManager implements TaskManager {
         if (subtasks != null) {
             for (Subtask subtask : subtasks) {
                 this.subtasks.remove(subtask.getIdNum());
+                historyManager.remove(subtask.getIdNum());
             }
         }
+        historyManager.remove(id);
     }
 
     @Override
@@ -125,6 +128,7 @@ public class InMemoryTaskManager implements TaskManager {
         final Epic epic = epics.get(epicId);
         epicsWithSubtasks.get(epic).remove(subtask);
         setEpicStatus(epic);
+        historyManager.remove(id);
     }
 
     @Override

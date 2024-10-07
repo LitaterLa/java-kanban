@@ -40,7 +40,7 @@ class InMemoryHistoryManagerTest {
     @Test
     void shouldBeLessThan10InSizeHistory() {
         this.history.addAll(historyManager.getHistory());
-        assertEquals(3, historyManager.getMapSize());
+        assertEquals(3, historyManager.getHistorySize());
     }
 
     @Test

@@ -41,6 +41,7 @@ public class Main {
         System.out.println(historyManager.getHistory().size());
         taskManager.getTaskById(task1.getIdNum());
         taskManager.getSubtaskByID(subtask1.getIdNum());
+        taskManager.getSubtaskByID(subtask2.getIdNum());
         taskManager.getSubtaskByID(subtask3.getIdNum());
 
         System.out.println(historyManager.getHistory().size());
@@ -49,9 +50,6 @@ public class Main {
         System.out.println(historyManager.getHistory().size());
 
         taskManager.deleteEpicById(epic1.getIdNum());
-        historyManager.remove(epic1.getIdNum());
-        historyManager.remove(subtask1.getIdNum());
-        historyManager.remove(subtask3.getIdNum());
 
         System.out.println(historyManager.getHistory().size());
 
