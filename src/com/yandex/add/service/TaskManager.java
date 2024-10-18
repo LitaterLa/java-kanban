@@ -8,11 +8,11 @@ import java.util.List;
 
 public interface TaskManager {
 
-    Task createTask(Task task);
+    Task createTask(Task task) throws FileBackedTaskManager.ManagerSaveException;
 
-    Epic createEpic(Epic epic);
+    Epic createEpic(Epic epic) throws FileBackedTaskManager.ManagerSaveException;
 
-    Subtask createSubtask(Subtask subtask);
+    Subtask createSubtask(Subtask subtask) throws FileBackedTaskManager.ManagerSaveException;
 
     List<Task> getHistory();
 
@@ -24,17 +24,17 @@ public interface TaskManager {
 
     void deleteAllEpics();
 
-    void deleteTaskById(int id);
+    void deleteTaskById(int id) throws FileBackedTaskManager.ManagerSaveException;
 
-    void deleteEpicById(int id);
+    void deleteEpicById(int id) throws FileBackedTaskManager.ManagerSaveException;
 
-    void deleteSubtaskById(int id);
+    void deleteSubtaskById(int id) throws FileBackedTaskManager.ManagerSaveException;
 
-    void updateTask(Task task);
+    void updateTask(Task task) throws FileBackedTaskManager.ManagerSaveException;
 
-    void updateEpic(Epic epic);
+    void updateEpic(Epic epic) throws FileBackedTaskManager.ManagerSaveException;
 
-    void updateSubtask(Subtask subtask);
+    void updateSubtask(Subtask subtask) throws FileBackedTaskManager.ManagerSaveException;
 
     List<Task> getTasks();
 

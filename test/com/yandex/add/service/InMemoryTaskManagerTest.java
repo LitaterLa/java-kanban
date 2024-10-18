@@ -7,6 +7,7 @@ import com.yandex.add.model.TaskStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -22,7 +23,7 @@ public class InMemoryTaskManagerTest {
     }
 
     @Test
-    void shouldDeleteTaskById(){
+    void shouldDeleteTaskById() throws IOException {
         Task task = new Task("task", "description");
         memoryTaskManager.createTask(task);
         memoryTaskManager.deleteTaskById(task.getIdNum());
@@ -30,7 +31,7 @@ public class InMemoryTaskManagerTest {
     }
 
     @Test
-    void shouldDeleteEpicByIdAndItsSubtasks(){
+    void shouldDeleteEpicByIdAndItsSubtasks() throws IOException{
         Epic epic = new Epic("epic","epic");
         Subtask subtask1 = new Subtask("subtask1", "decr", epic.getIdNum());
         Subtask subtask2 = new Subtask("subtask2", "decr", epic.getIdNum());
@@ -44,7 +45,7 @@ public class InMemoryTaskManagerTest {
     }
 
     @Test
-    void shouldUpdateTask(){
+    void shouldUpdateTask() throws IOException{
         Task task = new Task("task", "description");
         memoryTaskManager.createTask(task);
         task.setTitle("newTitle");
@@ -56,7 +57,7 @@ public class InMemoryTaskManagerTest {
     }
 
     @Test
-    void getSubtasksByEpic_ShouldReturnSubtasksForEpic() {
+    void getSubtasksByEpic_ShouldReturnSubtasksForEpic() throws IOException{
         Epic epic = new Epic("Epic 1", "Epic Description 1");
         memoryTaskManager.createEpic(epic);
 
@@ -71,7 +72,7 @@ public class InMemoryTaskManagerTest {
     }
 
     @Test
-    void shouldNotAddEpicAsSubtask() {
+    void shouldNotAddEpicAsSubtask() throws IOException{
         Epic epic = new Epic("epic", "epic");
         memoryTaskManager.createEpic(epic);
         Epic savedEpic = memoryTaskManager.getEpicByID(epic.getIdNum());
@@ -84,7 +85,7 @@ public class InMemoryTaskManagerTest {
     }
 
     @Test
-    void shouldAddAndFindDifferentTypesOfTasks(){
+    void shouldAddAndFindDifferentTypesOfTasks() throws IOException{
         Task task = memoryTaskManager.createTask(new Task("task", "task"));
         Epic epic = memoryTaskManager.createEpic(new Epic("epic", "epic"));
         Subtask subtask = memoryTaskManager.createSubtask(new Subtask("subtask", "subtask",epic.getIdNum()));
@@ -99,7 +100,7 @@ public class InMemoryTaskManagerTest {
     }
 
     @Test
-    void shouldHaveUniqueId(){
+    void shouldHaveUniqueId() throws IOException{
         Task task = new Task("task", "task");
         Task task2 = new Task("task", "task");
         memoryTaskManager.createTask(task);
@@ -107,7 +108,7 @@ public class InMemoryTaskManagerTest {
         assertNotEquals(task2.getIdNum(), task.getIdNum());
     }
     @Test
-    void shouldBeImmutableTask(){
+    void shouldBeImmutableTask() throws IOException{
         Task originalTask = new Task("Task1", "Description1");
         String name = originalTask.getTitle();
         String description = originalTask.getDescription();

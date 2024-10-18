@@ -3,6 +3,7 @@ package com.yandex.add.service;
 import com.yandex.add.model.Task;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -23,7 +24,7 @@ public class ManagersTest {
     }
 
     @Test
-    void shouldImplementMethodsEfficiently() {
+    void shouldImplementMethodsEfficiently() throws IOException {
         HistoryManager historyManager = Managers.getDefaultHistory();
         TaskManager taskManager = Managers.getDefault();
 
@@ -35,9 +36,6 @@ public class ManagersTest {
         assertEquals(1, history.size(), "HistoryManager должен содержать 1 задачу в истории.");
         assertEquals(task, history.get(0), "История должна содержать добавленную задачу.");
 
-
-        // либо можно проверить на принадлежность к классу, не поняла, что требуется по тз
-        //assertTrue(taskManager instanceof InMemoryTaskManager, "TaskManager should be an instance of InMemoryTaskManager");
     }
 }
 
