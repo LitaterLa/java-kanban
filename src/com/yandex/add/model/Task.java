@@ -14,6 +14,17 @@ public class Task {
         this.taskStatus = TaskStatus.NEW;
     }
 
+    public Task(String title, String description, int idNum) {
+        this.title = title;
+        this.description = description;
+        this.idNum = idNum;
+    }
+
+    public TaskType getType() {
+        return TaskType.TASK;
+    }
+
+
     public void setTitle(String title) {
         this.title = title;
     }
@@ -62,11 +73,6 @@ public class Task {
 
     @Override
     public String toString() {
-        return "com.yandex.add.model.Task{" +
-                "title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                ", idNum=" + idNum +
-                ", taskStatus=" + taskStatus +
-                '}';
+        return "com.yandex.add.model.Task{" + "title='" + title + '\'' + ", description='" + description + '\'' + ", idNum=" + idNum + ", taskStatus=" + taskStatus + '}';
     }
 }
