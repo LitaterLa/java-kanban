@@ -1,8 +1,9 @@
-package com.yandex.add.service;
+package com.yandex.add.service.history;
 
 import com.yandex.add.model.Epic;
 import com.yandex.add.model.Subtask;
 import com.yandex.add.model.Task;
+import com.yandex.add.service.tasks.InMemoryTaskManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -91,7 +92,7 @@ class InMemoryHistoryManagerTest {
     }
 
     @Test
-    void shouldFunctionManagerIfPropertiesChanges() throws IOException {
+    void shouldFunctionManagerIfPropertiesChange() throws IOException {
         task1.setTitle("new title");
         task1.setDescription("new description");
         taskManager.updateTask(task1);

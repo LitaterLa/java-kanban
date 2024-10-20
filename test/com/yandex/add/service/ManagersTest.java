@@ -1,6 +1,7 @@
 package com.yandex.add.service;
 
 import com.yandex.add.model.Task;
+import com.yandex.add.service.history.HistoryManager;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;

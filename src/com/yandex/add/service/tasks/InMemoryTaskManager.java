@@ -1,9 +1,12 @@
-package com.yandex.add.service;
+package com.yandex.add.service.tasks;
 
 import com.yandex.add.model.Epic;
 import com.yandex.add.model.Subtask;
 import com.yandex.add.model.Task;
 import com.yandex.add.model.TaskStatus;
+import com.yandex.add.service.Managers;
+import com.yandex.add.service.TaskManager;
+import com.yandex.add.service.history.HistoryManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,37 +14,31 @@ import java.util.List;
 import java.util.Map;
 
 public class InMemoryTaskManager implements TaskManager {
-    private final Map<Integer, Task> tasks;
-    private final Map<Integer, Subtask> subtasks;
-    private final Map<Integer, Epic> epics;
-    private final Map<Epic, List<Subtask>> epicsWithSubtasks = new HashMap<>();
+    protected static final Map<Integer, Task> tasks = new HashMap<>();
+    protected static final Map<Integer, Subtask> subtasks = new HashMap<>();
+    protected static final Map<Integer, Epic> epics = new HashMap<>();
+    protected final Map<Epic, List<Subtask>> epicsWithSubtasks = new HashMap<>();
     private int idCounter = 1;
+    protected int seq = 0;
     private final HistoryManager historyManager;
-
 
     public InMemoryTaskManager(HistoryManager historyManager) {
         this.historyManager = historyManager;
-        this.tasks = new HashMap<>();
-        this.subtasks = new HashMap<>();
-        this.epics = new HashMap<>();
     }
 
     public InMemoryTaskManager() {
         this.historyManager = Managers.getDefaultHistory();
-        this.tasks = new HashMap<>();
-        this.subtasks = new HashMap<>();
-        this.epics = new HashMap<>();
     }
 
     @Override
-    public Task createTask(Task task) throws FileBackedTaskManager.ManagerSaveException {
+    public Task createTask(Task task) {
         task.setIdNum(generateId());
         tasks.put(task.getIdNum(), task);
         return task;
     }
 
     @Override
-    public Epic createEpic(Epic epic) throws FileBackedTaskManager.ManagerSaveException {
+    public Epic createEpic(Epic epic) {
         epic.setIdNum(generateId());
         setEpicStatus(epic);
         epics.put(epic.getIdNum(), epic);
@@ -50,7 +47,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public Subtask createSubtask(Subtask subtask) throws FileBackedTaskManager.ManagerSaveException {
+    public Subtask createSubtask(Subtask subtask) {
         subtask.setIdNum(generateId());
         Epic epic = epics.get(subtask.getEpicId());
         if (epic != null) {
@@ -103,7 +100,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void deleteTaskById(int id) throws FileBackedTaskManager.ManagerSaveException {
+    public void deleteTaskById(int id) {
         if (tasks.get(id) != null) {
             tasks.remove(id);
             historyManager.remove(id);
@@ -113,7 +110,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void deleteEpicById(int id) throws FileBackedTaskManager.ManagerSaveException {
+    public void deleteEpicById(int id) {
         Epic epicToRemove = epics.remove(id);
         if (epicToRemove == null) {
             System.out.println("Not found");
@@ -130,7 +127,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void deleteSubtaskById(int id) throws FileBackedTaskManager.ManagerSaveException {
+    public void deleteSubtaskById(int id) {
         final Subtask subtask = subtasks.remove(id);
         if (subtask == null) {
             return;
@@ -143,20 +140,20 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void updateTask(Task task) throws FileBackedTaskManager.ManagerSaveException {
+    public void updateTask(Task task) {
         tasks.put(task.getIdNum(), task);
 
     }
 
     @Override
-    public void updateEpic(Epic epic) throws FileBackedTaskManager.ManagerSaveException {
+    public void updateEpic(Epic epic) {
         Epic oldEpic = epics.get(epic.getIdNum());
         oldEpic.setDescription(epic.getDescription());
         oldEpic.setTitle(epic.getTitle());
     }
 
     @Override
-    public void updateSubtask(Subtask subtask) throws FileBackedTaskManager.ManagerSaveException {
+    public void updateSubtask(Subtask subtask) {
         final Subtask oldSubtask = subtasks.get(subtask.getIdNum());
         if (oldSubtask == null) {
             return;
@@ -218,6 +215,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     private int generateId() {
+        ++seq;
         return ++idCounter;
     }
 

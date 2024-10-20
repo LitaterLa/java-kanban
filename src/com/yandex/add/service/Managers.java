@@ -1,6 +1,10 @@
 package com.yandex.add.service;
 
 
+import com.yandex.add.service.history.HistoryManager;
+import com.yandex.add.service.history.InMemoryHistoryManager;
+import com.yandex.add.service.tasks.InMemoryTaskManager;
+
 public class Managers {
 
     private Managers() {
