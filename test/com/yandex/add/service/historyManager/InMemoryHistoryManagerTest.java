@@ -1,8 +1,9 @@
-package com.yandex.add.service;
+package com.yandex.add.service.historyManager;
 
 import com.yandex.add.model.Epic;
 import com.yandex.add.model.Subtask;
 import com.yandex.add.model.Task;
+import com.yandex.add.service.taskManager.InMemoryTaskManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -39,7 +40,7 @@ class InMemoryHistoryManagerTest {
     @Test
     void shouldBeLessThan10InSizeHistory() {
         this.history.addAll(historyManager.getHistory());
-        assertEquals(3, historyManager.getMapSize());
+        assertEquals(3, historyManager.getHistorySize());
     }
 
     @Test

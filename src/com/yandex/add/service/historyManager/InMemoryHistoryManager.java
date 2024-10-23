@@ -1,4 +1,4 @@
-package com.yandex.add.service;
+package com.yandex.add.service.historyManager;
 
 import com.yandex.add.model.Task;
 
@@ -8,64 +8,30 @@ import java.util.List;
 import java.util.Map;
 
 public class InMemoryHistoryManager implements HistoryManager {
-    private static class Node {
-        public Task data;
-        public Node next;
-        public Node prev;
-
-        public Node(Node prev, Task task, Node next) {
-            this.data = task;
-            this.next = next;
-            this.prev = prev;
-        }
-    }
 
     private Map<Integer, Node> historyMap;
-    private final static int HISTORY_LENGTH = 10;
     private Node head;
     private Node tail;
 
-    public int getMapSize() {
+    public int getHistorySize() {
         return this.historyMap.size();
-
     }
 
     public InMemoryHistoryManager() {
         this.historyMap = new HashMap<>();
-        this.head = null;
-        this.tail = null;
     }
 
-    //Todo links
     @Override
     public void add(Task task) {
         if (task == null) return;
-        if (historyMap.get(task.getIdNum()) != null) {
-            removeNode(historyMap.get(task.getIdNum()));
-            historyMap.remove(task.getIdNum());
-        }
-        if (historyMap.size() == HISTORY_LENGTH) {
-            removeNode(head);
-            historyMap.remove(head.data.getIdNum());
-        }
-        if (tail == null) {
-            tail = new Node(null, task, null);
-            head = tail;
-        } else {
-            linkLast(task);
-        }
+        remove(task.getIdNum());
+        linkLast(task);
         historyMap.put(task.getIdNum(), tail);
     }
 
     @Override
     public void remove(int id) {
-        Node toRemove = historyMap.get(id);
-        if (toRemove != null) {
-            historyMap.remove(toRemove.data.getIdNum());
-            removeNode(toRemove);
-        } else {
-            System.out.println("task id " + id + " not found");
-        }
+        removeNode(historyMap.remove(id));
     }
 
     @Override
@@ -74,7 +40,6 @@ public class InMemoryHistoryManager implements HistoryManager {
         // Реализация метода getHistory должна перекладывать задачи из связного списка в ArrayList для формирования ответа.
     }
 
-    //ToDo links
     private void linkLast(Task task) {
         final Node oldTail = tail;
         final Node newTail = new Node(oldTail, task, null);
@@ -83,28 +48,26 @@ public class InMemoryHistoryManager implements HistoryManager {
             head = newTail;
         } else {
             oldTail.next = newTail;
-            newTail.prev = oldTail;
         }
         //будет добавлять задачу в конец этого списка
     }
 
     private void removeNode(Node node) {
         if (node == null) return;
-        historyMap.remove(node.data.getIdNum());
-
-        if (node.prev != null) {
-            node.prev.next = node.next;
+        final Node next = node.next;
+        final Node prev = node.prev;
+        if (prev != null) {
+            prev.next = next;
         } else {
-            head = node.next;
+            head = next;
         }
-        if (node.next != null) {
-            node.next.prev = node.prev;
+        if (next != null) {
+            next.prev = prev;
         } else {
-            tail = node.prev;
+            tail = prev;
         }
-        node.prev = null;
+        node.prev = null; //тк были объявлены константы, здесь оставляю такое обновление ссылки?
         node.next = null;
-
     }
 
     private List<Task> getTasks() {
@@ -118,6 +81,17 @@ public class InMemoryHistoryManager implements HistoryManager {
         //собирать все задачи из него в обычный ArrayList
     }
 
+    private static class Node {
+        public Task data;
+        public Node next;
+        public Node prev;
+
+        public Node(Node prev, Task task, Node next) {
+            this.data = task;
+            this.next = next;
+            this.prev = prev;
+        }
+    }
 
 }
 
