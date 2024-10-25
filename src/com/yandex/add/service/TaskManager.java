@@ -7,6 +7,7 @@ import com.yandex.add.model.Task;
 import java.util.List;
 
 public interface TaskManager {
+
     Task createTask(Task task);
 
     Epic createEpic(Epic epic);
@@ -45,7 +46,7 @@ public interface TaskManager {
 
     Task getTaskById(int id);
 
-    Task getEpicByID(int id);
+    Epic getEpicByID(int id);
 
-    Task getSubtaskByID(int id);
+    Subtask getSubtaskByID(int id);
 }
