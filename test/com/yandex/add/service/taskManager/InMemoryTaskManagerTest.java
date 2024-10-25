@@ -14,12 +14,14 @@ public class InMemoryTaskManagerTest extends TaskManagerTest<InMemoryTaskManager
     protected InMemoryTaskManager createManager() {
         return memoryTaskManager = new InMemoryTaskManager(historyManager);
     }
+
     @Test
     public void taskManagers() {
         memoryTaskManager = createManager();
         InMemoryTaskManager taskManager = new InMemoryTaskManager(historyManager);
         assertEqualTaskManagers(memoryTaskManager, taskManager, "should be equal");
     }
+
     private static void assertEqualTaskManagers(TaskManager expected, TaskManager actual, String message) {
         assertEquals(expected.getTasks(), actual.getTasks());
     }

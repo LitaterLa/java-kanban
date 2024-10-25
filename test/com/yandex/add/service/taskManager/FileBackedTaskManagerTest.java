@@ -26,6 +26,7 @@ class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTaskManager> {
             throw new RuntimeException(e);
         }
     }
+
     FileBackedTaskManager newManager;
 
 

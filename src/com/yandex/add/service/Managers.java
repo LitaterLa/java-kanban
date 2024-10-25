@@ -8,13 +8,14 @@ import com.yandex.add.service.taskManager.TaskManager;
 
 public class Managers {
 
-    private Managers(){}
+    private Managers() {
+    }
 
-    public static TaskManager getDefault(){
+    public static TaskManager getDefault() {
         return new InMemoryTaskManager(getDefaultHistory());
     }
 
-    public static HistoryManager getDefaultHistory(){
+    public static HistoryManager getDefaultHistory() {
         return new InMemoryHistoryManager();
     }
 }

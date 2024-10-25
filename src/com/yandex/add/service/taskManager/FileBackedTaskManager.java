@@ -120,7 +120,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
     private static Task fromString(String value) {
         if (value.isEmpty() || value.isBlank()) return null;
-       // String[] data = value.split("\n"); // как оставить? с data массивом?
+        // String[] data = value.split("\n"); // как оставить? с data массивом?
         String[] newData = value.split(",");
         for (String datum : newData) {
             //newData = datum.split(",");
