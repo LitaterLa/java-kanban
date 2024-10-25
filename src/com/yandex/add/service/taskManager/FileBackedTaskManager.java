@@ -1,8 +1,8 @@
 package com.yandex.add.service.taskManager;
 
-import com.yandex.add.exception.ManagerSaveException;
+import com.yandex.add.exceptions.ManagerSaveException;
 import com.yandex.add.model.*;
-import com.yandex.add.service.historyManager.HistoryManager;
+import com.yandex.add.service.history.HistoryManager;
 
 import java.io.*;
 

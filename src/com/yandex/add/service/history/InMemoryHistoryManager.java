@@ -1,4 +1,4 @@
-package com.yandex.add.service.historyManager;
+package com.yandex.add.service.history;
 
 import com.yandex.add.model.Task;
 
@@ -92,8 +92,8 @@ public class InMemoryHistoryManager implements HistoryManager {
             this.prev = prev;
         }
     }
-
 }
+
 
 
 

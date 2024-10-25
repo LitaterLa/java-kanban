@@ -1,7 +1,7 @@
 package com.yandex.add.service.taskManager;
 
-import com.yandex.add.service.historyManager.HistoryManager;
-import com.yandex.add.service.historyManager.InMemoryHistoryManager;
+import com.yandex.add.service.history.HistoryManager;
+import com.yandex.add.service.history.InMemoryHistoryManager;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

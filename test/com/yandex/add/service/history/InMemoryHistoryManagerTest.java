@@ -1,4 +1,4 @@
-package com.yandex.add.service.historyManager;
+package com.yandex.add.service.history;
 
 import com.yandex.add.model.Epic;
 import com.yandex.add.model.Subtask;
@@ -7,6 +7,7 @@ import com.yandex.add.service.taskManager.InMemoryTaskManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +20,7 @@ class InMemoryHistoryManagerTest {
     private List<Task> history;
 
     @BeforeEach
-    public void setup(){
+    public void setup() throws IOException {
         history = new ArrayList<>();
         task1 = new Task("title1", "description");
         task2 = new Task("title2", "description");
@@ -33,10 +34,11 @@ class InMemoryHistoryManagerTest {
     }
 
     @Test
-    void testRemoveFirst(){
+    void testRemoveFirst() {
         historyManager.remove(task1.getIdNum());
-        assertEquals(historyManager.getHistory(), List.of(task2,task3));
+        assertEquals(historyManager.getHistory(), List.of(task2, task3));
     }
+
     @Test
     void shouldBeLessThan10InSizeHistory() {
         this.history.addAll(historyManager.getHistory());
@@ -47,7 +49,7 @@ class InMemoryHistoryManagerTest {
     void shouldAddImmutableTask() {
         history.addAll(historyManager.getHistory());
         assertNotNull(history, "История не пустая.");
-        assertEquals(3,history.size(), "История не пустая.");
+        assertEquals(3, history.size(), "История не пустая.");
         assertEquals(task1.getTitle(), history.get(0).getTitle());
         assertEquals(task1.getDescription(), history.getFirst().getDescription());
         assertEquals(task1.getIdNum(), history.getFirst().getIdNum());
@@ -55,14 +57,14 @@ class InMemoryHistoryManagerTest {
     }
 
     @Test
-    void shouldNotSaveOldID(){
-    taskManager.deleteTaskById(task1.getIdNum());
-    Task newTask = new Task("new", "newer");
-    assertNotEquals(task1.getIdNum(), newTask.getIdNum());
+    void shouldNotSaveOldID() throws IOException {
+        taskManager.deleteTaskById(task1.getIdNum());
+        Task newTask = new Task("new", "newer");
+        assertNotEquals(task1.getIdNum(), newTask.getIdNum());
     }
 
     @Test
-    void shouldNotHoldDisusedSubtaskId(){
+    void shouldNotHoldDisusedSubtaskId() throws IOException {
         Epic epic = new Epic("epic", "epic");
         taskManager.createEpic(epic);
         Subtask subtask1 = new Subtask("subtask", "subtask", epic.getIdNum());
@@ -74,11 +76,10 @@ class InMemoryHistoryManagerTest {
         Subtask subtask = taskManager.getSubtaskByID(subtask1.getIdNum());
         List<Subtask> subtasks = taskManager.getSubtasks();
         assertEquals(1, subtasks.size());
-
-
     }
+
     @Test
-    void shouldBeSameArrays(){
+    void shouldBeSameArrays() {
         List<Task> history1 = new ArrayList<>();
         history1.add(task1);
         history1.add(task2);
@@ -91,15 +92,15 @@ class InMemoryHistoryManagerTest {
     }
 
     @Test
-    void shouldFunctionManagerIfPropertiesChanges(){
+    void shouldFunctionManagerIfPropertiesChange() throws IOException {
         task1.setTitle("new title");
         task1.setDescription("new description");
         taskManager.updateTask(task1);
         List<Task> tasks = historyManager.getHistory();
         Task taskProb = new Task(null, null);
-        for(Task task: tasks){
-            if(task.equals(task1)){
-               taskProb = task;
+        for (Task task : tasks) {
+            if (task.equals(task1)) {
+                taskProb = task;
             }
         }
         assertEquals(task1, taskProb);

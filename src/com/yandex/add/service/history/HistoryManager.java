@@ -1,4 +1,4 @@
-package com.yandex.add.service.historyManager;
+package com.yandex.add.service.history;
 
 import com.yandex.add.model.Task;
 
@@ -11,4 +11,5 @@ public interface HistoryManager {
     void remove(int id);
 
     List<Task> getHistory();
+
 }
