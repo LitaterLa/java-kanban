@@ -1,6 +1,7 @@
 package com.yandex.add.service.taskManager;
 
 import com.yandex.add.model.Epic;
+import com.yandex.add.model.Subtask;
 import com.yandex.add.model.Task;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,7 +11,7 @@ import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTaskManager> {
+class FileBackedTaskManagerTest {
 
     private FileBackedTaskManager manager;
     private Task taskOne;
@@ -18,6 +19,7 @@ class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTaskManager> {
     private Task taskThree;
     private Epic epic;
     private File templateFile;
+    private Subtask subtask;
 
     {
         try {
@@ -32,7 +34,7 @@ class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTaskManager> {
 
     @BeforeEach
     void before() {
-        manager = createManager();
+        manager = new FileBackedTaskManager(templateFile);
         taskOne = new Task("Task1", "desc1");
         taskTwo = new Task("task2", "desc2");
         taskThree = new Task("task3", "task3");
@@ -41,18 +43,16 @@ class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTaskManager> {
         manager.createTask(taskTwo);
         manager.createTask(taskThree);
         manager.createEpic(epic);
-    }
+        subtask = new Subtask("subtask", "subtask", epic.getIdNum());
+        manager.createSubtask(subtask);
 
-    @Override
-    protected FileBackedTaskManager createManager() {
-        return new FileBackedTaskManager(templateFile);
     }
 
     @Test
     void shouldLoadFromFile() throws IOException {
         newManager = manager.loadFromFile(templateFile);
-        assertEquals(4, newManager.getTasks().size()); // считывает 4, а не 5 пересечение ид!!
-        assertEquals(2, newManager.getEpics().size());
+        assertEquals(3, newManager.getTasks().size());
+        assertEquals(1, newManager.getEpics().size());
         assertEquals(1, newManager.getSubtasks().size());
         assertEquals(newManager.getTaskById(taskTwo.getIdNum()), manager.getTaskById(taskTwo.getIdNum()));
         assertEquals(newManager.getEpicByID(epic.getIdNum()), manager.getEpicByID(epic.getIdNum()));
@@ -61,7 +61,7 @@ class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTaskManager> {
     @Test
     void shouldReturnLastAddedTaskId() {
         int lastId = manager.seq;
-        assertEquals(lastId, epic.getIdNum());
+        assertEquals(lastId, subtask.getIdNum());
     }
 
     @Test

@@ -129,10 +129,10 @@ public class InMemoryTaskManager implements TaskManager {
             System.out.println("Not found");
         }
 
-        List<Subtask> subtasks = epicsWithSubtasks.remove(epicToRemove);
-        if (subtasks != null) {
-            for (Subtask subtask : subtasks) {
-                this.subtasks.remove(subtask.getIdNum());
+        List<Subtask> removed = epicsWithSubtasks.remove(epicToRemove);
+        if (removed != null) {
+            for (Subtask subtask : removed) {
+                subtasks.remove(subtask.getIdNum());
                 historyManager.remove(subtask.getIdNum());
             }
         }
