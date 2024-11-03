@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -29,7 +30,7 @@ class FileBackedTaskManagerTest {
         }
     }
 
-    FileBackedTaskManager newManager;
+    private FileBackedTaskManager newManager;
 
 
     @BeforeEach
@@ -51,11 +52,12 @@ class FileBackedTaskManagerTest {
     @Test
     void shouldLoadFromFile() throws IOException {
         newManager = manager.loadFromFile(templateFile);
-        assertEquals(3, newManager.getTasks().size());
+        List<Task> tasks = newManager.getTasks();
         assertEquals(1, newManager.getEpics().size());
         assertEquals(1, newManager.getSubtasks().size());
         assertEquals(newManager.getTaskById(taskTwo.getIdNum()), manager.getTaskById(taskTwo.getIdNum()));
         assertEquals(newManager.getEpicByID(epic.getIdNum()), manager.getEpicByID(epic.getIdNum()));
+        assertEquals(3, tasks.size());
     }
 
     @Test
