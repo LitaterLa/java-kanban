@@ -9,15 +9,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FileBackedTaskManager extends InMemoryTaskManager {
-    private final File FILE;
+    private final File file;
 
     public FileBackedTaskManager(HistoryManager historyManager, File file) {
         super(historyManager);
-        this.FILE = file;
+        this.file = file;
     }
 
     public FileBackedTaskManager(File file) {
-        this.FILE = file;
+        this.file = file;
     }
 
     public static FileBackedTaskManager loadFromFile(File file) throws ManagerSaveException {
@@ -134,8 +134,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         if (task == null) return "No such task";
 
         String taskType = task.getType().toString();
-        String result = task.getIdNum() + "," + taskType + "," + task.getTitle() + "," +
-                task.getTaskStatus().toString() + "," + task.getDescription();
+        String result = task.getIdNum() + "," + taskType + "," + task.getTitle() + "," + task.getTaskStatus().toString() + "," + task.getDescription();
 
         if (task.getType().equals(TaskType.SUBTASK)) {
             result += "," + ((Subtask) task).getEpicId();
@@ -183,7 +182,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     private void save() {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
             for (Task task : getTasks()) {
                 writer.write(toString(task));
                 writer.newLine();
