@@ -27,60 +27,30 @@ public class Main {
         Subtask subtask1 = new Subtask("Master static modifier", "solve more problems", epic1.getIdNum());
         fileManager.createSubtask(subtask1);
 
-        FileBackedTaskManager newFileManager = fileManager.loadFromFile(file);
-//        System.out.println(newFileManager.getSubtasks().size());
-//        System.out.println(newFileManager.getTasks().size());
-        System.out.println(newFileManager.getEpics().size());
-        Task newTask = newFileManager.getTaskById(task1.getIdNum());
-        Epic newEpic = newFileManager.getEpicByID(epic1.getIdNum());
-        Subtask newSubtask = newFileManager.getSubtaskByID(subtask1.getIdNum());
-        System.out.println(subtask1.getIdNum() + "is" + newSubtask.getIdNum());
+        taskManager.createTask(task1);
+        taskManager.createTask(task2);
+        taskManager.createTask(epic1);
+        taskManager.getTaskById(task1.getIdNum());
+        taskManager.getTaskById(task2.getIdNum());
+        taskManager.getEpicByID(epic1.getIdNum());
+        taskManager.getSubtaskByID(subtask1.getIdNum());
 
-        fileManager.deleteEpicById(epic1.getIdNum());
-        System.out.println(fileManager.getEpics().size());
-        System.out.println(fileManager.getEpics().get(epic2.getIdNum()).getTitle());
-//        int i = 1;
-//        System.out.println(1);
+        InMemoryTaskManager newManager = new InMemoryTaskManager(historyManager);
+        System.out.println(historyManager.getHistorySize());
+        System.out.println(newManager.getTasks().size());
+        System.out.println(taskManager.getTasks().size());
 
-//        taskManager.createTask(task1);
-//        taskManager.createTask(task2);
+
+//        FileBackedTaskManager newFileManager = fileManager.loadFromFile(file);
+//        System.out.println(newFileManager.getEpics().size());
+//        Task newTask = newFileManager.getTaskById(task1.getIdNum());
+//        Epic newEpic = newFileManager.getEpicByID(epic1.getIdNum());
+//        Subtask newSubtask = newFileManager.getSubtaskByID(subtask1.getIdNum());
+//        System.out.println(subtask1.getIdNum() + "is" + newSubtask.getIdNum());
 //
-//        Epic epic1 = new Epic("Java", "learn coding");
-//        taskManager.createEpic(epic1);
-//
-//        Subtask subtask1 = new Subtask("Master static modifier", "solve more problems", epic1.getIdNum());
-//        Subtask subtask2 = new Subtask("Study OOP closer", "solve more problems", epic1.getIdNum());
-//        Subtask subtask3 = new Subtask("string", "string class", epic1.getIdNum());
-//        taskManager.createSubtask(subtask2);
-//        taskManager.createSubtask(subtask1);
-//        taskManager.createSubtask(subtask3);
-//
-//        Epic epic2 = new Epic("Efficient tutoring", "enhance st skills");
-//        taskManager.createEpic(epic2);
-//        taskManager.getEpicByID(epic1.getIdNum());
-//        System.out.println(historyManager.getHistory().size());
-//        taskManager.getSubtaskByID(subtask1.getIdNum());
-//        System.out.println(historyManager.getHistory().size());
-//        taskManager.getSubtaskByID(subtask3.getIdNum());
-//        System.out.println(historyManager.getHistory().size());
-//
-//        taskManager.getEpicByID(epic2.getIdNum());
-//        taskManager.getTaskById(task2.getIdNum());
-//
-//        System.out.println(historyManager.getHistory().size());
-//        taskManager.getTaskById(task1.getIdNum());
-//        taskManager.getSubtaskByID(subtask1.getIdNum());
-//        taskManager.getSubtaskByID(subtask2.getIdNum());
-//        taskManager.getSubtaskByID(subtask3.getIdNum());
-//
-//        System.out.println(historyManager.getHistory().size());
-//
-//        historyManager.remove(task1.getIdNum());
-//        System.out.println(historyManager.getHistory().size());
-//
-//        taskManager.deleteEpicById(epic1.getIdNum());
-//
-//        System.out.println(historyManager.getHistory().size());
+//        fileManager.deleteEpicById(epic1.getIdNum());
+//        System.out.println(fileManager.getEpics().size());
+//        System.out.println(fileManager.getEpics().get(epic2.getIdNum()).getTitle());
 
     }
 }

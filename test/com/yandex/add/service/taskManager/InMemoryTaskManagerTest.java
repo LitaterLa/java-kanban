@@ -4,8 +4,8 @@ import com.yandex.add.model.Epic;
 import com.yandex.add.model.Subtask;
 import com.yandex.add.model.Task;
 import com.yandex.add.model.TaskStatus;
+import com.yandex.add.service.Managers;
 import com.yandex.add.service.history.HistoryManager;
-import com.yandex.add.service.history.InMemoryHistoryManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -23,7 +23,7 @@ public class InMemoryTaskManagerTest {
 
     @BeforeEach
     void init() {
-        historyManager = new InMemoryHistoryManager();
+        historyManager = Managers.getDefaultHistory();
         manager = new InMemoryTaskManager(historyManager);
         task1 = new Task("task1", "task1");
         manager.createTask(task1);
@@ -33,6 +33,9 @@ public class InMemoryTaskManagerTest {
         manager.createEpic(epic);
         subtask = new Subtask("subtask1", "subtask1", epic.getIdNum());
         manager.createSubtask(subtask);
+        manager.getTaskById(task1.getIdNum());
+        manager.getTaskById(task2.getIdNum());
+
     }
 
 
@@ -49,16 +52,13 @@ public class InMemoryTaskManagerTest {
     }
 
     @Test
-    public void taskManagers() {
-        HistoryManager historyManager = new InMemoryHistoryManager();
-        InMemoryTaskManager inMemoryTaskManager = new InMemoryTaskManager(historyManager);
-        assertEqualTaskManagers(manager, inMemoryTaskManager, "should be equal");
-    }
+    void shouldReturnSameHistoryOnNewTaskManager() {
+        manager.getEpicByID(epic.getIdNum());
 
-    private static void assertEqualTaskManagers(TaskManager expected, TaskManager actual, String message) {
-        assertEquals(expected.getTasks(), actual.getTasks());
+        List<Task> history = historyManager.getHistory();
+        assertEquals(3, history.size());
+        assertEquals(task1, history.get(0));
     }
-
 
     @Test
     void shouldDeleteTaskById() {
@@ -84,7 +84,7 @@ public class InMemoryTaskManagerTest {
     }
 
     @Test
-    void getSubtasksByEpic_ShouldReturnSubtasksForEpic() {
+    void getSubtasksByEpicShouldReturnSubtasksForEpic() {
         List<Subtask> subtasks = manager.getSubtasksByEpic(epic.getIdNum());
         assertEquals(1, subtasks.size());
     }

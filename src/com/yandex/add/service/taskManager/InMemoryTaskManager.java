@@ -4,8 +4,8 @@ import com.yandex.add.model.Epic;
 import com.yandex.add.model.Subtask;
 import com.yandex.add.model.Task;
 import com.yandex.add.model.TaskStatus;
+import com.yandex.add.service.Managers;
 import com.yandex.add.service.history.HistoryManager;
-import com.yandex.add.service.history.InMemoryHistoryManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,9 +13,9 @@ import java.util.List;
 import java.util.Map;
 
 public class InMemoryTaskManager implements TaskManager {
-    protected  final Map<Integer, Task> tasks = new HashMap<>();
-    protected  final Map<Integer, Subtask> subtasks = new HashMap<>();
-    protected  final Map<Integer, Epic> epics = new HashMap<>();
+    protected final Map<Integer, Task> tasks = new HashMap<>();
+    protected final Map<Integer, Subtask> subtasks = new HashMap<>();
+    protected final Map<Integer, Epic> epics = new HashMap<>();
     protected final Map<Epic, List<Subtask>> epicsWithSubtasks = new HashMap<>();
     private int idCounter = 0;
     protected static int seq = 0;
@@ -26,7 +26,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     public InMemoryTaskManager() {
-        this.historyManager = new InMemoryHistoryManager();
+        this.historyManager = Managers.getDefaultHistory();
     }
 
     @Override

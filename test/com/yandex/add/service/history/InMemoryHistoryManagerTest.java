@@ -6,7 +6,6 @@ import com.yandex.add.model.Task;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +17,7 @@ class InMemoryHistoryManagerTest {
     private List<Task> history;
 
     @BeforeEach
-    public void setup() throws IOException {
+    public void setup() {
         history = new ArrayList<>();
         task1 = new Task("title1", "description", 300);
         task2 = new Task("title2", "description", 301);
