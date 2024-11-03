@@ -7,7 +7,7 @@ import com.yandex.add.service.history.HistoryManager;
 import java.io.*;
 
 public class FileBackedTaskManager extends InMemoryTaskManager {
-    private final File file;
+    protected final File file;
 
     public FileBackedTaskManager(HistoryManager historyManager, File file) {
         super(historyManager);

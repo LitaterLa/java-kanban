@@ -51,7 +51,7 @@ class FileBackedTaskManagerTest {
 
     @Test
     void shouldLoadFromFile() throws IOException {
-        newManager = manager.loadFromFile(templateFile);
+        newManager = FileBackedTaskManager.loadFromFile(templateFile);
         List<Task> tasks = newManager.getTasks();
         assertEquals(1, newManager.getEpics().size());
         assertEquals(1, newManager.getSubtasks().size());
