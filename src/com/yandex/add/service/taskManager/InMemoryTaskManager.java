@@ -13,9 +13,9 @@ import java.util.List;
 import java.util.Map;
 
 public class InMemoryTaskManager implements TaskManager {
-    protected static final Map<Integer, Task> tasks = new HashMap<>();
-    protected static final Map<Integer, Subtask> subtasks = new HashMap<>();
-    protected static final Map<Integer, Epic> epics = new HashMap<>();
+    protected  final Map<Integer, Task> tasks = new HashMap<>();
+    protected  final Map<Integer, Subtask> subtasks = new HashMap<>();
+    protected  final Map<Integer, Epic> epics = new HashMap<>();
     protected final Map<Epic, List<Subtask>> epicsWithSubtasks = new HashMap<>();
     private int idCounter = 0;
     protected static int seq = 0;

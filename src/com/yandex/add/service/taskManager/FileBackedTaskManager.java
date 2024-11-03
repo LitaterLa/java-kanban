@@ -21,17 +21,30 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     public static FileBackedTaskManager loadFromFile(File file) throws IOException {
         FileBackedTaskManager manager = new FileBackedTaskManager(file);
         int maxId = 0;
+
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 Task task = fromString(line);
-                final int id = task.getIdNum();
-                if (task.getType() == TaskType.EPIC) {
-                    epics.put(id, (Epic) task);
-                } else if (task.getType() == TaskType.SUBTASK) {
-                    subtasks.put(id, (Subtask) task);
-                } else if (task.getType() == TaskType.TASK) {
-                    tasks.put(id, task);
+                if (task == null) {
+                    System.out.println("Ошибка: не удалось распознать строку - " + line);
+                    continue;
+                }
+
+                int id = task.getIdNum();
+                switch (task.getType()) {
+                    case EPIC:
+                        manager.epics.put(id, (Epic) task);
+                        break;
+                    case SUBTASK:
+                        manager.subtasks.put(id, (Subtask) task);
+                        break;
+                    case TASK:
+                        manager.tasks.put(id, task);
+                        break;
+                    default:
+                        System.out.println("Неизвестный тип задачи: " + task.getType());
+                        break;
                 }
                 if (maxId < id) {
                     maxId = id;
@@ -120,15 +133,13 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
     private static Task fromString(String value) {
         if (value.isEmpty() || value.isBlank()) return null;
-        // String[] data = value.split("\n"); // как оставить? с data массивом?
         String[] newData = value.split(",");
-        for (String datum : newData) {
-            //newData = datum.split(",");
-            String taskTypeString = newData[1].trim().toUpperCase();
-            TaskType type = TaskType.valueOf(taskTypeString);
+        try {
+            TaskType type = TaskType.valueOf(newData[1].trim().toUpperCase());
             String title = newData[2].trim();
             String description = newData[4].trim();
             int id = Integer.parseInt(newData[0].trim());
+
             if (type == TaskType.TASK) {
                 Task task = new Task(title, description);
                 task.setIdNum(id);
@@ -140,11 +151,14 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                 epic.setTaskStatus(parseTaskStatus(newData[3].trim()));
                 return epic;
             } else if (type == TaskType.SUBTASK) {
-                Subtask subtask = new Subtask(title, description, Integer.parseInt(newData[5]));
+                Subtask subtask = new Subtask(title, description, Integer.parseInt(newData[5].trim()));
                 subtask.setIdNum(id);
                 subtask.setTaskStatus(parseTaskStatus(newData[3].trim()));
                 return subtask;
             }
+        } catch (Exception e) {
+            System.out.println("Ошибка при разборе строки: " + value);
+            e.printStackTrace();
         }
         return null;
     }
@@ -171,6 +185,4 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
             throw new ManagerSaveException("Ошибка при сохранении задачи", exception);
         }
     }
-
 }
-
