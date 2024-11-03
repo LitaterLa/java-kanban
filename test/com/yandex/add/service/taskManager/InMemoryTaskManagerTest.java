@@ -35,9 +35,7 @@ public class InMemoryTaskManagerTest {
         manager.createSubtask(subtask);
         manager.getTaskById(task1.getIdNum());
         manager.getTaskById(task2.getIdNum());
-
     }
-
 
     @Test
     void shouldBeImmutableTask() {
