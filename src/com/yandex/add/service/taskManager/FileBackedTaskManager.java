@@ -6,10 +6,10 @@ import com.yandex.add.service.history.HistoryManager;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.List;
 
 public class FileBackedTaskManager extends InMemoryTaskManager {
     private final File file;
+    private static final String HEADER = "id,type,name,status,description,epic";
 
     public FileBackedTaskManager(HistoryManager historyManager, File file) {
         super(historyManager);
@@ -42,15 +42,12 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                     case SUBTASK:
                         manager.subtasks.put(id, (Subtask) task);
                         Epic epic = manager.epics.get(((Subtask) task).getEpicId());
-                        List<Subtask> subtasks = new ArrayList<>();
-                        if (epic != null) {
-                            for (Subtask subtask : manager.subtasks.values()) {
-                                if (subtask.getEpicId() == epic.getIdNum()) {
-                                    subtasks.add(subtask);
-                                }
-                            }
+                        if(manager.epicsWithSubtasks.containsKey(epic.getIdNum())) {
+                            manager.epicsWithSubtasks.get(epic.getIdNum()).add((Subtask) task);
+                        } else {
+                            manager.epicsWithSubtasks.put(epic, new ArrayList<>());
+                            manager.epicsWithSubtasks.get(epic.getIdNum()).add((Subtask) task);
                         }
-                        manager.epicsWithSubtasks.put(epic, subtasks);
                         break;
                     case TASK:
                         manager.tasks.put(id, task);
@@ -183,6 +180,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
     private void save() {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+            writer.write(HEADER + "\n");
             for (Task task : getTasks()) {
                 writer.write(toString(task));
                 writer.newLine();
