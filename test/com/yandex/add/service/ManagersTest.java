@@ -1,6 +1,8 @@
 package com.yandex.add.service;
 
 import com.yandex.add.model.Task;
+import com.yandex.add.service.history.HistoryManager;
+import com.yandex.add.service.taskManager.TaskManager;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

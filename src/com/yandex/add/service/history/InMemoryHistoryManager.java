@@ -1,24 +1,24 @@
-package com.yandex.add.service;
+package com.yandex.add.service.history;
 
 import com.yandex.add.model.Task;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 public class InMemoryHistoryManager implements HistoryManager {
 
-    private Map<Integer, Node> historyMap;
+    private Map<Integer, Node> localHistory;
     private Node head;
     private Node tail;
 
     public int getHistorySize() {
-        return this.historyMap.size();
+        return this.localHistory.size();
     }
 
     public InMemoryHistoryManager() {
-        this.historyMap = new HashMap<>();
+        this.localHistory = new HashMap<>();
     }
 
     @Override
@@ -26,18 +26,17 @@ public class InMemoryHistoryManager implements HistoryManager {
         if (task == null) return;
         remove(task.getIdNum());
         linkLast(task);
-        historyMap.put(task.getIdNum(), tail);
+        localHistory.put(task.getIdNum(), tail);
     }
 
     @Override
     public void remove(int id) {
-        removeNode(historyMap.remove(id));
+        removeNode(localHistory.remove(id));
     }
 
     @Override
     public List<Task> getHistory() {
         return getTasks();
-        // Реализация метода getHistory должна перекладывать задачи из связного списка в ArrayList для формирования ответа.
     }
 
     private void linkLast(Task task) {
@@ -66,20 +65,18 @@ public class InMemoryHistoryManager implements HistoryManager {
         } else {
             tail = prev;
         }
-        node.prev = null; //тк были объявлены константы, здесь оставляю такое обновление ссылки?
+        node.prev = null;
         node.next = null;
-
     }
 
     private List<Task> getTasks() {
-        List<Task> tasks = new LinkedList<>();
+        List<Task> tasks = new ArrayList<>();
         Node currentHead = head;
         while (currentHead != null) {
             tasks.add(currentHead.data);
             currentHead = currentHead.next;
         }
         return tasks;
-        //собирать все задачи из него в обычный ArrayList
     }
 
     private static class Node {
@@ -93,8 +90,8 @@ public class InMemoryHistoryManager implements HistoryManager {
             this.prev = prev;
         }
     }
-
 }
+
 
 
 

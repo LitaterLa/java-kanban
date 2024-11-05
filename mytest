@@ -1,0 +1,5 @@
+1,TASK,Parent-teacher conf,NEW,school year org
+2,TASK,Shopping,NEW,water filter
+3,EPIC,Java,NEW,learn coding
+4,EPIC,Javaa,NEW,learn coding
+5,SUBTASK,Master static modifier,NEW,solve more problems,3
