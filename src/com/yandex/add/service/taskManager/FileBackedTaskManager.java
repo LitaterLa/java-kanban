@@ -26,10 +26,18 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             String line;
-            while ((line = reader.readLine()) != null) {
+
+            // Считываем первую строку и пропускаем её, если это заголовок
+            line = reader.readLine();
+            if (line != null && line.equals(HEADER)) {
+                line = reader.readLine(); // Пропускаем заголовок
+            }
+
+            while (line != null) {
                 Task task = fromString(line);
                 if (task == null) {
                     System.out.println("Ошибка: не удалось распознать строку - " + line);
+                    line = reader.readLine();
                     continue;
                 }
 
@@ -42,11 +50,11 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                     case SUBTASK:
                         manager.subtasks.put(id, (Subtask) task);
                         Epic epic = manager.epics.get(((Subtask) task).getEpicId());
-                        if (manager.epicsWithSubtasks.containsKey(epic.getIdNum())) {
-                            manager.epicsWithSubtasks.get(epic.getIdNum()).add((Subtask) task);
+                        if (manager.epicsWithSubtasks.containsKey(epic)) {
+                            manager.epicsWithSubtasks.get(epic).add((Subtask) task);
                         } else {
                             manager.epicsWithSubtasks.put(epic, new ArrayList<>());
-                            manager.epicsWithSubtasks.get(epic.getIdNum()).add((Subtask) task);
+                            manager.epicsWithSubtasks.get(epic).add((Subtask) task);
                         }
                         break;
                     case TASK:
@@ -59,6 +67,8 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                 if (maxId < id) {
                     maxId = id;
                 }
+
+                line = reader.readLine();
             }
         } catch (IOException e) {
             throw new ManagerSaveException("file loading failed,", e);
@@ -66,6 +76,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         seq = maxId;
         return manager;
     }
+
 
     @Override
     public Task createTask(Task task) {
@@ -142,7 +153,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
 
     private static Task fromString(String value) {
-        if (value.isEmpty() || value.isBlank()) return null;
+        if (value.isEmpty() || value.isBlank() || value.equals("id,type,name,status,description,epic")) return null;
         String[] newData = value.split(",");
         try {
             TaskType type = TaskType.valueOf(newData[1].trim().toUpperCase());
