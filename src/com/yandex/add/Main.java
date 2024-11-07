@@ -22,14 +22,14 @@ public class Main {
         taskManager.createEpic(epic1);
         Epic epic2 = new Epic("Javaa", "learn coding");
         taskManager.createEpic(epic2);
-        Subtask subtask1 = new Subtask("Master static modifier", "solve more problems", epic1.getIdNum());
+        Subtask subtask1 = new Subtask("Master static modifier", "solve more problems", epic1.getId());
         taskManager.createSubtask(subtask1);
 
 // Получаем задачи
-        taskManager.getTaskById(task1.getIdNum());
-        taskManager.getTaskById(task2.getIdNum());
-        taskManager.getEpicByID(epic1.getIdNum());
-        taskManager.getSubtaskByID(subtask1.getIdNum());
+        taskManager.getTaskById(task1.getId());
+        taskManager.getTaskById(task2.getId());
+        taskManager.getEpicByID(epic1.getId());
+        taskManager.getSubtaskByID(subtask1.getId());
 
 // Создаем новый менеджер
         InMemoryTaskManager newManager = new InMemoryTaskManager(historyManager);

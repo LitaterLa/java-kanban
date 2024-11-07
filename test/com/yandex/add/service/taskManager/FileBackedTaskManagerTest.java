@@ -12,7 +12,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class FileBackedTaskManagerTest {
+class FileBackedTaskManagerTest extends TaskManagerTest{
 
     private FileBackedTaskManager manager;
     private Task taskOne;
@@ -36,41 +36,41 @@ class FileBackedTaskManagerTest {
     @BeforeEach
     void before() {
         manager = new FileBackedTaskManager(templateFile);
-        taskOne = new Task("Task1", "desc1");
-        taskTwo = new Task("task2", "desc2");
-        taskThree = new Task("task3", "task3");
-        epic = new Epic("epic", "epic");
+        taskOne = new Task("title1", "description");
+        taskTwo = new Task("title2", "description");
+        taskThree = new Task("title3", "description");
+        epic = new Epic("epic", "description");
         manager.createTask(taskOne);
         manager.createTask(taskTwo);
         manager.createTask(taskThree);
         manager.createEpic(epic);
-        subtask = new Subtask("subtask", "subtask", epic.getIdNum());
+        subtask = new Subtask("title1", "description", epic.getId());
         manager.createSubtask(subtask);
 
     }
 
     @Test
-    void shouldLoadFromFile() throws IOException {
+    void shouldLoadFromFile() {
         newManager = manager.loadFromFile(templateFile);
         List<Task> tasks = newManager.getTasks();
         assertEquals(3, tasks.size());
         assertEquals(1, newManager.getEpics().size());
         assertEquals(1, newManager.getSubtasks().size());
-        assertEquals(newManager.getTaskById(taskTwo.getIdNum()), manager.getTaskById(taskTwo.getIdNum()));
-        assertEquals(newManager.getEpicByID(epic.getIdNum()), manager.getEpicByID(epic.getIdNum()));
+        assertEquals(newManager.getTaskById(taskTwo.getId()), manager.getTaskById(taskTwo.getId()));
+        assertEquals(newManager.getEpicByID(epic.getId()), manager.getEpicByID(epic.getId()));
     }
 
     @Test
     void shouldReturnLastAddedTaskId() {
         int lastId = manager.seq;
-        assertEquals(lastId, subtask.getIdNum());
+        assertEquals(lastId, subtask.getId());
     }
 
     @Test
-    public void shouldSaveAndLoadMultipleTasks() throws IOException {
+    public void shouldSaveAndLoadMultipleTasks() {
         FileBackedTaskManager newManager = manager.loadFromFile(templateFile);
-        assertEquals("Task1", newManager.getTaskById(taskOne.getIdNum()).getTitle());
-        assertEquals("task2", newManager.getTaskById(taskTwo.getIdNum()).getTitle());
+        assertEquals("title1", newManager.getTaskById(taskOne.getId()).getTitle());
+        assertEquals("title2", newManager.getTaskById(taskTwo.getId()).getTitle());
     }
 }
 

@@ -25,7 +25,7 @@ class TaskTest {
     private void assertEqualTasks(Task expected, Task actual) {
         assertEquals(expected.getTitle(), actual.getTitle());
         assertEquals(expected.getDescription(), actual.getDescription());
-        assertEquals(expected.getIdNum(), actual.getIdNum());
+        assertEquals(expected.getId(), actual.getId());
     }
 
 }

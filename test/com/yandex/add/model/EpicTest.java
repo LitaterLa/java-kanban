@@ -16,7 +16,7 @@ public class EpicTest {
     }
 
     private static void assertEpicsEqual(Task one, Task two, String message) {
-        assertEquals(one.getIdNum(), two.getIdNum());
+        assertEquals(one.getId(), two.getId());
         assertEquals(one.getDescription(), two.getDescription());
         assertEquals(one.getTitle(), two.getTitle());
 
