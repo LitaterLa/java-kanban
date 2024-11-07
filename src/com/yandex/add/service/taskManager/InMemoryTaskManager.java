@@ -279,7 +279,7 @@ public class InMemoryTaskManager implements TaskManager {
         }
         if (isInProgress) {
             status = Status.IN_PROGRESS;
-        } else if (isDone &&!isInProgress) {
+        } else if (isDone && !isInProgress) {
             status = Status.DONE;
         }
         epic.setStartTime(start);

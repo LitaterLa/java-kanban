@@ -12,7 +12,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class FileBackedTaskManagerTest extends TaskManagerTest{
+class FileBackedTaskManagerTest extends TaskManagerTest {
 
     private FileBackedTaskManager manager;
     private Task taskOne;
