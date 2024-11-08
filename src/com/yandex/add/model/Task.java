@@ -10,9 +10,9 @@ public class Task {
     private Status status;
     private String description;
 
-    protected LocalDateTime startTime;
+    private LocalDateTime startTime;
     private Duration duration;
-    protected LocalDateTime endTime;
+    private LocalDateTime endTime;
 
     public Task(String title, String description) {
         this.title = title;

@@ -23,6 +23,10 @@ public class Epic extends Task {
         return TaskType.EPIC;
     }
 
+    public void setSubtasks(List<Subtask> subtasks) {
+        this.subtasks = subtasks;
+    }
+
     public List<Subtask> getSubtasks() {
         return subtasks;
     }
@@ -83,12 +87,13 @@ public class Epic extends Task {
         if (subtasks.isEmpty()) {
             throw new NotFoundException("No subtasks found for epic with id: " + this.getId());
         }
-        subtasks.stream()
+        LocalDateTime minStartTime = subtasks.stream()
                 .map(Subtask::getStartTime)
                 .min(LocalDateTime::compareTo)
                 .orElseThrow(() -> new NotFoundException("No valid start times found in subtasks"));
-        System.out.println("Epic start time: " + startTime);
-        return startTime;
+        super.setStartTime(minStartTime);
+        System.out.println("Epic start time: " + super.getStartTime());
+        return super.getStartTime();
     }
 
     @Override
@@ -96,14 +101,14 @@ public class Epic extends Task {
         if (subtasks.isEmpty()) {
             throw new NotFoundException("No subtasks found for epic with id: " + this.getId());
         }
-        subtasks.stream()
+        LocalDateTime maxEndTime = subtasks.stream()
                 .map(Subtask::getEndTime)
                 .max(LocalDateTime::compareTo)
                 .orElseThrow(() -> new NotFoundException("No valid end times found in subtasks"));
 
-        System.out.println("Epic ended time: " + endTime);
-
-        return endTime;
+        super.setEndTime(maxEndTime);
+        System.out.println("Epic ended time: " + getEndTime());
+        return getEndTime();
     }
 
     @Override

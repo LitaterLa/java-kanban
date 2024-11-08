@@ -1,4 +1,4 @@
-package com.yandex.add.service.taskManager;
+package com.yandex.add.service.taskmanager;
 
 import com.yandex.add.exceptions.NotFoundException;
 import com.yandex.add.exceptions.ValidationException;
@@ -18,8 +18,9 @@ public class InMemoryTaskManager implements TaskManager {
     protected final Map<Integer, Subtask> subtasks = new HashMap<>();
     protected final Map<Integer, Epic> epics = new HashMap<>();
     protected final TreeSet<Task> prioritizedTasks = new TreeSet<>(Comparator.comparing(Task::getStartTime));
-    private int idCounter = 0;
-    protected static int seq = 0;
+
+    private int id = 0;
+    protected static int seq = 0; // для FileB, хранит максимальное id объектов
     private final HistoryManager historyManager;
 
     public InMemoryTaskManager(HistoryManager historyManager) {
@@ -161,11 +162,12 @@ public class InMemoryTaskManager implements TaskManager {
         Epic original = epics.get(epic.getId());
         List<Subtask> subtasks;
         if (original == null) {
-            throw new NotFoundException("Эпик id+" + original.getId());
+            throw new NotFoundException("Эпик не найден");
         }
         List<Subtask> epicSubtasks = epic.getSubtasks();
         if (epicSubtasks == null) {
             subtasks = new ArrayList<>();
+            original.setSubtasks(subtasks);
         }
         epic.updateStatusAndTime();
         deleteOldAndAddNewTask(epic, original);
@@ -233,7 +235,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     private int generateId() {
         ++seq;
-        return ++idCounter;
+        return ++id;
     }
 
     private void checkTaskTime(Task task) {
@@ -279,7 +281,7 @@ public class InMemoryTaskManager implements TaskManager {
         }
         if (isInProgress) {
             status = Status.IN_PROGRESS;
-        } else if (isDone && !isInProgress) {
+        } else if (isDone) {
             status = Status.DONE;
         }
         epic.setStartTime(start);
@@ -293,7 +295,5 @@ public class InMemoryTaskManager implements TaskManager {
         return task1.getStartTime().isBefore(task2.getEndTime()) && task2.getStartTime().isBefore(task1.getEndTime());
     }
 }
-
-
 
 

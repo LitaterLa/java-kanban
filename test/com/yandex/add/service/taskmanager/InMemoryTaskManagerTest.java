@@ -1,4 +1,4 @@
-package com.yandex.add.service.taskManager;
+package com.yandex.add.service.taskmanager;
 
 import com.yandex.add.model.Status;
 import com.yandex.add.model.Task;

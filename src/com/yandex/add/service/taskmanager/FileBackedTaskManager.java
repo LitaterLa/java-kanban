@@ -1,4 +1,4 @@
-package com.yandex.add.service.taskManager;
+package com.yandex.add.service.taskmanager;
 
 import com.yandex.add.exceptions.ManagerSaveException;
 import com.yandex.add.model.*;
@@ -78,7 +78,6 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
 
-
     @Override
     public Task createTask(Task task) {
         Task newTask = super.createTask(task);
@@ -91,7 +90,6 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     public Epic createEpic(Epic epic) {
         Epic newEpic = super.createEpic(epic);
         seq = epic.getId();
-       // save();
         return newEpic;
     }
 
@@ -158,7 +156,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
 
     private static Task fromString(String value) {
-        if (value.isEmpty() || value.isBlank() || value.equals("id,type,name,status,description,epicId,startTime,duration")) return null;
+        if (value.isEmpty() || value.isBlank() || value.equals(HEADER)) return null;
         String[] newData = value.split(",");
         try {
             TaskType type = TaskType.valueOf(newData[1].trim().toUpperCase());
@@ -170,14 +168,11 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
             LocalDateTime startTime = LocalDateTime.parse(newData[6]);
             Duration duration = Duration.parse(newData[7]);
             if (type == TaskType.TASK) {
-                Task task = new Task(id,title, status, description, startTime, duration);
-                return task;
+                return new Task(id, title, status, description, startTime, duration);
             } else if (type == TaskType.EPIC) {
-                Epic epic = new Epic(id,title, status, description, startTime, duration);
-                return epic;
+                return new Epic(id, title, status, description, startTime, duration);
             } else if (type == TaskType.SUBTASK) {
-                Subtask subtask = new Subtask(id, title, status, description, Integer.parseInt(epicId), startTime, duration);
-                return subtask;
+                return new Subtask(id, title, status, description, Integer.parseInt(epicId), startTime, duration);
             }
         } catch (Exception e) {
             System.out.println("Ошибка при разборе строки: " + value);

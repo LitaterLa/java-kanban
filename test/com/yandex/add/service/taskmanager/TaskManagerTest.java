@@ -1,4 +1,4 @@
-package com.yandex.add.service.taskManager;
+package com.yandex.add.service.taskmanager;
 
 import com.yandex.add.exceptions.ValidationException;
 import com.yandex.add.model.Epic;
