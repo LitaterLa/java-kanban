@@ -61,12 +61,6 @@ class FileBackedTaskManagerTest extends TaskManagerTest {
     }
 
     @Test
-    void shouldReturnLastAddedTaskId() {
-        int lastId = manager.seq;
-        assertEquals(lastId, subtask.getId());
-    }
-
-    @Test
     public void shouldSaveAndLoadMultipleTasks() {
         FileBackedTaskManager newManager = manager.loadFromFile(templateFile);
         assertEquals("title1", newManager.getTaskById(taskOne.getId()).getTitle());

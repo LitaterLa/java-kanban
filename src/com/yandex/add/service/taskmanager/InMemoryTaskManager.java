@@ -11,7 +11,13 @@ import com.yandex.add.service.history.HistoryManager;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeSet;
+
 
 public class InMemoryTaskManager implements TaskManager {
     protected final Map<Integer, Task> tasks = new HashMap<>();
@@ -20,7 +26,6 @@ public class InMemoryTaskManager implements TaskManager {
     protected final TreeSet<Task> prioritizedTasks = new TreeSet<>(Comparator.comparing(Task::getStartTime));
 
     private int id = 0;
-    protected static int seq = 0; // для FileB, хранит максимальное id объектов
     private final HistoryManager historyManager;
 
     public InMemoryTaskManager(HistoryManager historyManager) {
@@ -151,7 +156,7 @@ public class InMemoryTaskManager implements TaskManager {
     public void updateTask(Task task) {
         Task original = tasks.get(task.getId());
         if (original == null) {
-            throw new NotFoundException("Task id=" + task.getId());
+            throw new NotFoundException("Задача не найдена");
         }
         deleteOldAndAddNewTask(task, original);
         tasks.put(task.getId(), task);
@@ -178,7 +183,7 @@ public class InMemoryTaskManager implements TaskManager {
     public void updateSubtask(Subtask subtask) {
         final Subtask original = subtasks.get(subtask.getId());
         if (original == null) {
-            throw new NotFoundException("Subtask id+" + original.getId());
+            throw new NotFoundException("Подзадача не была найдена");
         }
         deleteOldAndAddNewTask(subtask, original);
         calculateEpicStatus(epics.get(original.getEpicId()));
@@ -234,7 +239,6 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     private int generateId() {
-        ++seq;
         return ++id;
     }
 

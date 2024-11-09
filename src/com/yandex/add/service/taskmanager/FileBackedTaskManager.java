@@ -1,21 +1,24 @@
 package com.yandex.add.service.taskmanager;
 
 import com.yandex.add.exceptions.ManagerSaveException;
-import com.yandex.add.model.*;
-import com.yandex.add.service.history.HistoryManager;
+import com.yandex.add.model.Epic;
+import com.yandex.add.model.Status;
+import com.yandex.add.model.Subtask;
+import com.yandex.add.model.Task;
+import com.yandex.add.model.TaskType;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
 public class FileBackedTaskManager extends InMemoryTaskManager {
     private final File file;
     private static final String HEADER = "id,type,name,status,description,epicId,startTime,duration";
-
-    public FileBackedTaskManager(HistoryManager historyManager, File file) {
-        super(historyManager);
-        this.file = file;
-    }
 
     public FileBackedTaskManager(File file) {
         this.file = file;
@@ -73,7 +76,6 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
             throw new ManagerSaveException("file loading failed,", e);
         }
 
-        manager.seq = maxId;
         return manager;
     }
 
@@ -81,7 +83,6 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     @Override
     public Task createTask(Task task) {
         Task newTask = super.createTask(task);
-        seq = task.getId();
         save();
         return newTask;
     }
@@ -89,7 +90,6 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     @Override
     public Epic createEpic(Epic epic) {
         Epic newEpic = super.createEpic(epic);
-        seq = epic.getId();
         return newEpic;
     }
 
@@ -103,7 +103,6 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         } else {
             System.out.println("Ошибка: эпик с id " + subtask.getEpicId() + " не найден.");
         }
-        seq = subtask.getId();
         save();
         return newSubtask;
     }
