@@ -12,11 +12,11 @@ public class EpicTest {
     public void shouldEqualWithCopy() {
         Epic epic = new Epic("name", "description");
         Epic epic1 = new Epic("name", "description");
-        assertEpicsEqual(epic, epic1, "must be equal");
+        assertEpicsEqual(epic, epic1);
     }
 
-    private static void assertEpicsEqual(Task one, Task two, String message) {
-        assertEquals(one.getIdNum(), two.getIdNum());
+    private static void assertEpicsEqual(Task one, Task two) {
+        assertEquals(one.getId(), two.getId());
         assertEquals(one.getDescription(), two.getDescription());
         assertEquals(one.getTitle(), two.getTitle());
 
