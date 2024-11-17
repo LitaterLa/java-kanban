@@ -18,11 +18,11 @@ public interface TaskManager {
 
     void deleteAll();
 
-    void deleteAllTasks();
+    void deleteTasks();
 
-    void deleteAllSubtasks();
+    void deleteSubtasks();
 
-    void deleteAllEpics();
+    void deleteEpics();
 
     void deleteTaskById(int id);
 
@@ -46,7 +46,9 @@ public interface TaskManager {
 
     Task getTaskById(int id);
 
-    Epic getEpicByID(int id);
+    Epic getEpicById(int id);
 
     Subtask getSubtaskByID(int id);
+
+    List<Task> getPrioritizedTasks();
 }
