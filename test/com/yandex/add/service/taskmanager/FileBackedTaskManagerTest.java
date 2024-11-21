@@ -57,7 +57,7 @@ class FileBackedTaskManagerTest extends TaskManagerTest {
         assertEquals(1, newManager.getEpics().size());
         assertEquals(1, newManager.getSubtasks().size());
         assertEquals(newManager.getTaskById(taskTwo.getId()), manager.getTaskById(taskTwo.getId()));
-        assertEquals(newManager.getEpicByID(epic.getId()), manager.getEpicByID(epic.getId()));
+        assertEquals(newManager.getEpicById(epic.getId()), manager.getEpicById(epic.getId()));
     }
 
     @Test

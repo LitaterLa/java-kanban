@@ -1,5 +1,6 @@
 package com.yandex.add;
 
+import com.google.gson.Gson;
 import com.yandex.add.model.Epic;
 import com.yandex.add.model.Subtask;
 import com.yandex.add.model.Task;
@@ -28,7 +29,7 @@ public class Main {
 // Получаем задачи
         taskManager.getTaskById(task1.getId());
         taskManager.getTaskById(task2.getId());
-        taskManager.getEpicByID(epic1.getId());
+        taskManager.getEpicById(epic1.getId());
         taskManager.getSubtaskByID(subtask1.getId());
 
 // Создаем новый менеджер
@@ -39,6 +40,7 @@ public class Main {
         System.out.println(newManager.getTasks().size()); // Должно быть 0
         System.out.println(taskManager.getTasks().size()); // Должно быть 3
 
+        Gson gson = new Gson();
 
     }
 }

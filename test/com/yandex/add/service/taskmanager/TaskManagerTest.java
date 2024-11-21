@@ -48,7 +48,7 @@ public abstract class TaskManagerTest {
 
     @Test
     void shouldReturnSameHistoryOnNewTaskManager() {
-        manager.getEpicByID(epic.getId());
+        manager.getEpicById(epic.getId());
 
         List<Task> history = historyManager.getHistory();
         assertEquals(3, history.size());
@@ -87,7 +87,7 @@ public abstract class TaskManagerTest {
     @Test
     void shouldDeleteEpicByIdAndItsSubtasks() {
         manager.deleteEpicById(epic.getId());
-        assertNull(manager.getEpicByID(epic.getId()));
+        assertNull(manager.getEpicById(epic.getId()));
         assertEquals(0, manager.getSubtasks().size());
     }
 
@@ -109,7 +109,7 @@ public abstract class TaskManagerTest {
 
     @Test
     void shouldNotAddEpicAsSubtask() {
-        Epic savedEpic = manager.getEpicByID(epic.getId());
+        Epic savedEpic = manager.getEpicById(epic.getId());
         assertNotNull(savedEpic);
         savedEpic.setStatus(Status.DONE);
         assertEquals(Status.DONE, savedEpic.getStatus());
@@ -118,7 +118,7 @@ public abstract class TaskManagerTest {
     @Test
     void shouldAddAndFindDifferentTypesOfTasks() {
         assertNotNull(manager.getTaskById(task1.getId()));
-        assertNotNull(manager.getEpicByID(epic.getId()));
+        assertNotNull(manager.getEpicById(epic.getId()));
         assertNotNull(manager.getSubtaskByID(subtask.getId()));
 
     }
