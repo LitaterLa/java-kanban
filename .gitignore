@@ -21,3 +21,12 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+
+# Исключить папку .idea (настройки среды разработки IntelliJ IDEA)
+.idea/
+
+# Исключить файлы .DS_Store (системные файлы macOS)
+.DS_Store
+**/.DS_Store
+
+
