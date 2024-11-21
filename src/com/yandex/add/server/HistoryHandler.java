@@ -19,16 +19,16 @@ public class HistoryHandler extends BaseHttpHandler {
     public void handle(HttpExchange exchange) throws IOException {
         String path = exchange.getRequestURI().getPath();
         String method = exchange.getRequestMethod();
-        try {
-            if (Pattern.matches("/history/?", path) && method.equals("GET")) {
+        if (Pattern.matches("/history/?", path) && ("GET".equals(method))) {
+            try {
                 List<Task> history = taskManager.getHistory();
                 sendResponse(exchange, 200, gson.toJson(history));
+            } catch (NotFoundException e) {
+                sendNotFound(exchange, "Метод или путь не найден");
             }
-        } catch (NotFoundException e) {
-            sendNotFound(exchange, "Метод или путь не найден");
+
         }
 
     }
-
 }
 

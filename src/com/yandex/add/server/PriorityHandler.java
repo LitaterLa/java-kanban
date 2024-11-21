@@ -18,14 +18,14 @@ public class PriorityHandler extends BaseHttpHandler {
     public void handle(HttpExchange exchange) throws IOException {
         String path = exchange.getRequestURI().getPath();
         String method = exchange.getRequestMethod();
-        try {
-            if (Pattern.matches("/prioritized/?", path) && method.equals("GET")) {
+        if (Pattern.matches("/prioritized/?", path) && "GET".equals(method)) {
+            try {
                 List<Task> prioritizedTasks = taskManager.getPrioritizedTasks();
                 sendResponse(exchange, 200, gson.toJson(prioritizedTasks));
+            } catch (NotFoundException e) {
+                sendNotFound(exchange, "Приоритетные задачи не найдены");
             }
-        } catch (NotFoundException e) {
-            sendNotFound(exchange, "Приоритетные задачи не найдены");
-        }
 
+        }
     }
 }

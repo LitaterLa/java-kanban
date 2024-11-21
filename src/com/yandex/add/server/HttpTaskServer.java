@@ -49,8 +49,8 @@ public class HttpTaskServer {
 
     public static Gson getGson() {
         return new GsonBuilder()
-                .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter())  // Пример кастомного адаптера
-                .registerTypeAdapter(Duration.class, new DurationAdapter())            // Пример кастомного адаптера
+                .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter())
+                .registerTypeAdapter(Duration.class, new DurationAdapter())
                 .create();
     }
 
